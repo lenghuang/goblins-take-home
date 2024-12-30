@@ -1,1 +1,8 @@
-.DS_Store
+**/.firebaserc
+**/node_modules/
+**/*-debug.log
+**/.DS_Store
+
+# Ignore for now until done
+images/*
+ThoughtProcess.md
