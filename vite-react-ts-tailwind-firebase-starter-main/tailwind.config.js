@@ -22,7 +22,7 @@ module.exports = {
   plugins: [require('daisyui')],
   daisyui: {
     themes: [
-      'lemonade', // https://daisyui.com/docs/themes/
+      'emerald', // https://daisyui.com/docs/themes/
     ],
   },
 };
