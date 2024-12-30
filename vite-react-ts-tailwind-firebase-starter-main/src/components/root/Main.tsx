@@ -1,28 +1,33 @@
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { onAuthStateChanged } from 'firebase/auth';
 import { useEffect } from 'react';
 import { useSignIn, useSignOut } from '~/components/contexts/UserContext';
 import { Router } from '~/components/router/Router';
-import { setupFirebase } from '~/lib/firebase';
+import { setupFirebase, useAuth } from '~/lib/firebase';
 
 function Main() {
   const { signIn } = useSignIn();
   const { signOut } = useSignOut();
+
   useEffect(() => {
-    setupFirebase();
+    const setupAuth = async () => {
+      setupFirebase();
+      const auth = await useAuth();
 
-    const auth = getAuth();
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          signIn(user);
+        } else {
+          signOut();
+        }
+      });
+    };
 
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        signIn(user);
-      } else {
-        signOut();
-      }
-    });
-  }, []);
+    setupAuth();
+  }, []); // Empty dependency array to run only once on mount
+
   return (
     <main>
-      <Router />
+      <Router /> {/* Render the router */}
     </main>
   );
 }
