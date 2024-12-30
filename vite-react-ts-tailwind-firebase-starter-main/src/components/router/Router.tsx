@@ -1,6 +1,5 @@
-import { Dialog } from '@headlessui/react';
-import { lazy, Suspense, useState } from 'react';
-import { Outlet, RouteObject, useRoutes, BrowserRouter } from 'react-router-dom';
+import { lazy, Suspense } from 'react';
+import { BrowserRouter, Outlet, RouteObject, useRoutes } from 'react-router-dom';
 
 const Loading = () => <p className="p-4 w-full h-full text-center">Loading...</p>;
 
@@ -10,8 +9,9 @@ const Page404Screen = lazy(() => import('~/components/screens/404'));
 function Layout() {
   return (
     <div>
-      <nav className="p-4 flex items-center justify-between">
-        <span>Header</span>
+      <nav className="p-4 flex items-center gap-2 font-bold text-lg">
+        <img className="w-12" src="https://framerusercontent.com/images/s2eg22HLfZkNAluQSTTeh61iPQ.png" />
+        <span>Whiteboard Labelling Platform</span>
       </nav>
       <Outlet />
     </div>
