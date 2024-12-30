@@ -2,11 +2,10 @@ import { GoogleAuthProvider, signInWithRedirect } from 'firebase/auth';
 import { useAuth } from '~/lib/firebase';
 
 export const SignInButton = () => {
-  const handleClick = () => {
+  const handleClick = async () => {
     const provider = new GoogleAuthProvider();
-    const auth = useAuth();
+    const auth = await useAuth();
     // @see https://firebase.google.com/docs/auth/web/google-signin
-
     signInWithRedirect(auth, provider);
   };
 

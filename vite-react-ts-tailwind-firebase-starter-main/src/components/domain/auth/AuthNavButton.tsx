@@ -3,11 +3,17 @@ import { useAuthState } from '~/components/contexts/UserContext';
 export const AuthNavButton = () => {
   const { state } = useAuthState();
 
-  console.log(state);
-
   if (state.state === 'SIGNED_IN') {
-    return <span>Whiteboard Labelling Platform</span>;
+    return (
+      <a href="/profile">
+        <button className="btn btn-ghost px-4">Signed in as {state.currentUser.email}</button>
+      </a>
+    );
   }
 
-  return <button className="btn btn-ghost px-4">Click here to sign in</button>;
+  return (
+    <a href="/profile">
+      <button className="btn btn-ghost px-4">Click here to sign in</button>
+    </a>
+  );
 };
