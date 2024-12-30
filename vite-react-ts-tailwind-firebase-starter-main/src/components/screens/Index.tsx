@@ -1,5 +1,6 @@
 import { Head } from '~/components/shared/Head';
 import { useAuthState } from '../contexts/UserContext';
+import { StartLabellingButton } from '../domain/label/StartLabellingButton';
 
 function DashboardOptions() {
   const { state } = useAuthState();
@@ -7,9 +8,7 @@ function DashboardOptions() {
   if (state.state == 'SIGNED_IN') {
     return (
       <>
-        <a href="/label">
-          <button className="btn btn-primary w-full">Start Labelling</button>
-        </a>
+        <StartLabellingButton />
         or consider...
         <a href="/todo">
           <button className="btn btn-outline btn-primary w-full">Upload More Data</button>
