@@ -29,12 +29,9 @@ let storage: ReturnType<typeof getStorage>;
 export const useAuth = async () => {
   auth = getAuth(firebaseApp);
   if (useEmulator()) {
-    console.log('use emulator');
     const authUrl = 'http://127.0.0.1:9099';
-    await fetch(authUrl);
-    console.log('connected emulator');
+    await fetch(authUrl); // https://dev.to/ilumin/fix-firebase-error-authemulator-config-failed-mng
     connectAuthEmulator(auth, authUrl);
-    console.log('done');
   }
   return auth;
 };
@@ -58,5 +55,3 @@ export const useStorage = () => {
   }
   return storage;
 };
-
-// https://stackoverflow.com/questions/73605307/firebase-auth-emulator-fails-intermittently-with-auth-emulator-config-failed

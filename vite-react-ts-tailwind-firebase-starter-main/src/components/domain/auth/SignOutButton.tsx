@@ -9,7 +9,7 @@ export const SignOutButton = (props: Props) => {
   };
 
   return (
-    <button onClick={handleClick} type="button" className="btn normal-case">
+    <button onClick={handleClick} type="button" className="btn normal-case w-full">
       Sign Out
     </button>
   );
