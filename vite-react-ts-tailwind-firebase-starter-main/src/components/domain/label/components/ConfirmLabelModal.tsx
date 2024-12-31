@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { FiveStarRatingDisplay } from './FiveStarRating';
 import { CombinedFormData, getCombinedLabelFormData, LabelFormInputs } from './form-utils';
+import { SubmitLabelsButton } from './SubmitLabelsButton';
 
 export const ConfirmLabelModal = ({
   labelFormInputs,
@@ -41,12 +42,7 @@ export const ConfirmLabelModal = ({
           </table>
         </div>
         <div className="modal-action">
-          <button onClick={() => setIsModalOpen(false)} className="btn">
-            Make More Changes
-          </button>
-          <button onClick={() => setIsModalOpen(false)} className="btn btn-primary">
-            Submit Labels
-          </button>
+          <SubmitLabelsButton editLabelsCallback={() => setIsModalOpen(false)} combinedData={combinedData} />
         </div>
       </div>
     </dialog>

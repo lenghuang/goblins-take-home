@@ -25,7 +25,7 @@ export const ConfirmCropButton = ({
   addChunk,
   whiteBoardId,
 }: ConfirmCropButtonProps) => {
-  const uploadImageChunkMutation = useUpsertDoc('chunks', null);
+  const uploadImageChunkMutation = useUpsertDoc('chunks');
   const userEmail = useUserEmail();
 
   const onClick = async () => {
