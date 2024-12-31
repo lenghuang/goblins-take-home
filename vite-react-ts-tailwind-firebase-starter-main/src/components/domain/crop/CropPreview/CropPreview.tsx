@@ -85,8 +85,7 @@ export default function CropPreview({ imgSrc, whiteBoardId, selectedCrops }: Cro
         </>
       )}
       <LabelStep step={3} text="Confirm your selections" />
-      {croppedImages?.length > 0 ||
-        (selectedCrops?.length > 0 && <CroppedImages selectedCrops={selectedCrops} croppedImages={croppedImages} />)}
+      <CroppedImages selectedCrops={selectedCrops} croppedImages={croppedImages} />
       <div className="flex gap-2 flex-col">
         <ProceedToLabellingButton croppedImages={croppedImages} />
         <ResetImageButton imgSrc={imgSrc} />
