@@ -19,15 +19,15 @@ To fact check myself on what other companies use / what solutions are out there,
 
 One thing I noticed from these is the ability to use keyboard shortcuts, undo, on the images. They were also all set up in a very Adobe Photoshop type way. I think this is potentially overkill for whiteboards, so I will take inspiration but likely opt for something simpler for the sake of this assignment.
 
-| CVAT                     | Oxford                       |
-| ------------------------ | ---------------------------- |
-| ![CVAT](images/CVAT.png) | ![Oxford](images/Oxford.png) |
+| CVAT              | Oxford                |
+| ----------------- | --------------------- |
+| ![CVAT](CVAT.png) | ![Oxford](Oxford.png) |
 
 ## Ideation Phase
 
 I drew out a few ways for what I think this could look like. I'm imagining a very fluid multi-step flow, in a Duolingo-esque way, making sure to give space for contractors to pause and think about what they did, allowing them to edit if necessary but also proceed quickly.
 
-![High Level Idea](images/HighLevelIdea.png)
+![High Level Idea](HighLevelIdea.png)
 
 For the sake of persisting data easily between different users and contractors, I initially decided to just go with Firebase and Next.js, since those are things I've used before and I'm just trying to get a proof of concept out. To do that I followed this and took their end state repo directly and made changes to it:
 
@@ -53,7 +53,7 @@ After I set up authentication and the barebones for a few different pages, I set
 
 This is what it looked like at this point.
 
-![BarebonesSetup.gif](images/BarebonesSetup.gif)
+![BarebonesSetup.gif](BarebonesSetup.gif)
 
 ## Starting Off With One
 
@@ -61,13 +61,13 @@ After this, to not over commit, I decided to "practice" integrating the image se
 
 However, I figured that this was a design choice I could probably make later since I needed to solve the singleton case before worrying about multiple users and concurrency haha, so I just went with it for now. First, I put some dummy data just so I could mock up what the front end might expect.
 
-| Jobs                          | Chunks                           |
-| ----------------------------- | -------------------------------- |
-| ![jobs](images/DummyData.png) | ![chunks](images/DummyData1.png) |
+| Jobs                   | Chunks                    |
+| ---------------------- | ------------------------- |
+| ![jobs](DummyData.png) | ![chunks](DummyData1.png) |
 
 Ideally, I would have done this with firestore's emulator capability. However, I ran into issues with emulators while I was doing Auth due to some race conditions with how the app was initialized. Since I could get around this by just using the "prod" data, I decided to do so. I would not have done this in a real world scenario. The emulator is quite nice because it allows you to have a sandbox environment. Either that or I would set up two firebase projects to have a QA / Prod one. After a bit of tweaking, and introducing `react-query` to have some nicer loading states and query handling, I was able to get a proof of concept of my database showing one row of data.
 
-![OneWhiteBoard](images/OneWhiteBoard.png)
+![OneWhiteBoard](OneWhiteBoard.png)
 
 ## Doing More Research Into Graphics Packages
 
@@ -85,8 +85,8 @@ I'm now imagining a flow where you select all your boxes, then go through and cl
 
 I decided to follow the example of https://github.com/sekoyo/react-image-crop?tab=readme-ov-file#how-can-i-generate-a-crop-preview-in-the-browser. It seemed decently light-weight, and I didn't think I needed the fancy features of a full-fledged image editor. After some copy-paste and some debugging, we end up with the following:
 
-| Barely Working                         | A Bit Better                           |
-| -------------------------------------- | -------------------------------------- |
-| ![ReactCropV0](images/ReactCropV0.png) | ![ReactCropV1](images/ReactCropV1.png) |
+| Barely Working                  | A Bit Better                    |
+| ------------------------------- | ------------------------------- |
+| ![ReactCropV0](ReactCropV0.png) | ![ReactCropV1](ReactCropV1.png) |
 
 Despite what I said earlier, I don't think I'm going to account for rotation and scaling. The coordinate math became a bit of a headache, and I'm sure I could tackle it with a clear mind, but I decided that it was more important to get the project functioning end to end than to dwell on that.
