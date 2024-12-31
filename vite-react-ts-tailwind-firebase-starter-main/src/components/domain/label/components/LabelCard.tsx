@@ -10,6 +10,7 @@ export const LabelCard = ({
   handleInputs,
   blurredInputValue,
   handleBlurredInputs,
+  confidenceValue,
   onConfidenceChange,
   error,
 }: {
@@ -19,6 +20,7 @@ export const LabelCard = ({
   handleInputs: (value: string) => void;
   blurredInputValue: string;
   handleBlurredInputs: (value: string) => void;
+  confidenceValue?: number;
   onConfidenceChange: (value: number) => void;
   error: string | undefined;
 }) => {
@@ -44,7 +46,7 @@ export const LabelCard = ({
           {inputValue || 'Enter expression above.'}
         </code>
         <LabelCardStep step={`${index}.2`} text="Give a confidence rating" />
-        <ConfidenceRating index={index} onConfidenceChange={onConfidenceChange} />
+        <ConfidenceRating index={index} onConfidenceChange={onConfidenceChange} defaultValue={confidenceValue} />
         {error && <p className="text-error">{error}</p>}
       </div>
     </div>
@@ -67,9 +69,11 @@ const LabelCardStep = ({ step, text }: { step: string; text: string }) => (
 const ConfidenceRating = ({
   index,
   onConfidenceChange,
+  defaultValue,
 }: {
   index: number;
   onConfidenceChange: (rating: number) => void;
+  defaultValue?: number;
 }) => {
   return (
     <div className="rating rating-lg">
@@ -80,6 +84,7 @@ const ConfidenceRating = ({
         </div>
         <FiveStarRatingInput
           index={index}
+          defaultValue={defaultValue}
           name="confidence-rating-label-input"
           handleChange={(e) => onConfidenceChange(Number(e.target.value))}
         />

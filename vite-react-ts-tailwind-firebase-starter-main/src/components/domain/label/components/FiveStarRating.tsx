@@ -2,10 +2,12 @@ export const FiveStarRatingInput = ({
   index,
   name,
   handleChange,
+  defaultValue,
 }: {
   index: number;
   name: string;
   handleChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  defaultValue?: number;
 }) => (
   <div>
     <input
@@ -14,7 +16,7 @@ export const FiveStarRatingInput = ({
       name={`${name}_${index}`}
       className="rating-hidden hidden"
       onChange={handleChange}
-      defaultChecked={true}
+      defaultChecked={defaultValue === undefined}
     />
     {Array.from({ length: 5 }, (_, i) => {
       const value = i + 1;
@@ -26,6 +28,7 @@ export const FiveStarRatingInput = ({
           value={value}
           className="mask mask-star-2"
           onChange={handleChange}
+          defaultChecked={!!defaultValue ? value === defaultValue : false}
         />
       );
     })}

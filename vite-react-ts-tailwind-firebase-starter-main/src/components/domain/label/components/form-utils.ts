@@ -14,15 +14,17 @@ export const setErrorsGivenInputAndConfidence = (
   if (src.selectedCrops.length !== inputKeys.length) {
     const difference = src.selectedCrops.filter((x) => !inputKeys.includes(x.cropId));
     difference.forEach((x) => setErrors((prev) => ({ ...prev, [x.cropId]: 'Missing math input' })));
-    return;
+    return false;
   }
 
   const confidenceKeys = Object.keys(src.confidences);
   if (src.selectedCrops.length !== confidenceKeys.length) {
     const difference = src.selectedCrops.filter((x) => !confidenceKeys.includes(x.cropId));
     difference.forEach((x) => setErrors((prev) => ({ ...prev, [x.cropId]: 'Missing confidence rating' })));
-    return;
+    return false;
   }
+
+  return true;
 };
 
 export interface CombinedFormData extends GetSelectedCropsResult {
