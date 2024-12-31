@@ -1,10 +1,10 @@
 import { PixelCrop } from 'react-image-crop';
 
-export async function getCroppedImage(
+export function getCroppedImage(
   image: HTMLImageElement,
   previewCanvas: HTMLCanvasElement,
   completedCrop: PixelCrop,
-): Promise<HTMLImageElement> {
+): string {
   if (!image || !previewCanvas || !completedCrop) {
     throw new Error('Crop canvas does not exist');
   }
@@ -31,8 +31,8 @@ export async function getCroppedImage(
   canvas.height = completedCrop.height;
 
   // Calculate scale factors for cropping from the original image
-  const scaleX = image.naturalWidth / image.width;
-  const scaleY = image.naturalHeight / image.height;
+  const scaleX = image.naturalWidth > 0 ? image.naturalWidth / image.width : 1;
+  const scaleY = image.naturalHeight > 0 ? image.naturalHeight / image.height : 1;
 
   // Draw the cropped portion directly onto the canvas, without scaling
   ctx.drawImage(
@@ -48,8 +48,5 @@ export async function getCroppedImage(
   );
 
   // Create a new image element
-  const newImage = new Image();
-  newImage.src = canvas.toDataURL('image/png'); // Convert the canvas to a base64 data URL
-
-  return newImage;
+  return canvas.toDataURL('image/png'); // Convert the canvas to a base64 data URL
 }

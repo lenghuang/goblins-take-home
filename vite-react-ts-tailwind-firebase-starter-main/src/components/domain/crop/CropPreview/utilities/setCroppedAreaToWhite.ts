@@ -1,6 +1,6 @@
 import { PixelCrop } from 'react-image-crop';
 
-export const setCroppedAreaToWhite = (image: HTMLImageElement, crop: PixelCrop): HTMLImageElement => {
+export const setCroppedAreaToWhite = (image: HTMLImageElement, crop: PixelCrop): string => {
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
 
@@ -9,12 +9,12 @@ export const setCroppedAreaToWhite = (image: HTMLImageElement, crop: PixelCrop):
   }
 
   // Calculate the scale factor based on the displayed image size vs. the natural image size
-  const scaleX = image.naturalWidth / image.width;
-  const scaleY = image.naturalHeight / image.height;
+  const scaleX = image.naturalWidth > 0 ? image.naturalWidth / image.width : 1;
+  const scaleY = image.naturalHeight > 0 ? image.naturalHeight / image.height : 1;
 
   // Set the canvas size to match the original image size
-  canvas.width = image.naturalWidth;
-  canvas.height = image.naturalHeight;
+  canvas.width = image.naturalWidth > 0 ? image.naturalWidth : image.width;
+  canvas.height = image.naturalHeight > 0 ? image.naturalHeight : image.height;
 
   // Draw the original image onto the canvas
   ctx.drawImage(image, 0, 0);
@@ -40,8 +40,5 @@ export const setCroppedAreaToWhite = (image: HTMLImageElement, crop: PixelCrop):
   ctx.putImageData(imageData, scaledCropX, scaledCropY);
 
   // Create a new image element from the canvas data
-  const newImage = new Image();
-  newImage.src = canvas.toDataURL('image/png');
-
-  return newImage;
+  return canvas.toDataURL('image/png');
 };
