@@ -8,8 +8,8 @@ export const CroppedImages = ({
   croppedImages,
   selectedCrops,
 }: {
-  croppedImages: Array<HTMLImageElement> | undefined;
-  selectedCrops: Array<GetSelectedCropsResult> | undefined;
+  croppedImages?: Array<HTMLImageElement>;
+  selectedCrops?: Array<GetSelectedCropsResult>;
 }) => {
   const userEmail = useUserEmail();
   const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
