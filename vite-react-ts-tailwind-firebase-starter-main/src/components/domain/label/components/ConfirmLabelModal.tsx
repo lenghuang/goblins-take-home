@@ -42,7 +42,10 @@ export const ConfirmLabelModal = ({
         </div>
         <div className="modal-action">
           <button onClick={() => setIsModalOpen(false)} className="btn">
-            Close
+            Make More Changes
+          </button>
+          <button onClick={() => setIsModalOpen(false)} className="btn btn-primary">
+            Submit Labels
           </button>
         </div>
       </div>
@@ -58,7 +61,9 @@ const TableBody = ({ combinedData }: { combinedData: Record<string, CombinedForm
         <tr key={cropId}>
           <th>{index + 1}</th>
           <td>
-            <img src={croppedImageSrc} alt={`Image for ${cropId}`} className="w-20 h-20 object-contain rounded" />
+            <figure className="flex justify-center p-1 w-full overflow-auto">
+              <img src={croppedImageSrc} alt={`Image for ${cropId}`} className="w-min h-min object-contain rounded" />
+            </figure>
           </td>
           <td>
             <code className="rounded-xl bg-base-200 p-2">{parsedInput}</code>
