@@ -57,7 +57,11 @@ export default function CropPreview({ imgSrc, whiteBoardId, selectedCrops }: Cro
 
   return (
     <div className="flex flex-col gap-6">
-      <LabelStep step={1} text="Select and crop" />
+      <LabelStep
+        step={1}
+        text="Select and crop"
+        caption="Click and drag across the image below to select areas you'd like to label. The simpler they are, the easier it will be for you! Avoid leaving too much white space."
+      />
       <ReactCrop
         className="rounded-xl border-2 shadow-xl overflow-hidden"
         crop={crop}
@@ -66,7 +70,11 @@ export default function CropPreview({ imgSrc, whiteBoardId, selectedCrops }: Cro
       >
         <img ref={imgRef} alt="Crop me" src={image?.src ?? imgSrc} />
       </ReactCrop>
-      <LabelStep step={2} text="Confirm your crop" />
+      <LabelStep
+        step={2}
+        text="Confirm your crop"
+        caption="Does this look right? If so, great! Confirm and it will show up in the choices below. If not, no worries! You'll be able to delete this if you refresh the page."
+      />
       {completedCrop && completedCrop.height >= 0 && completedCrop.width >= 0 && (
         <>
           <PreviewImageOfCrop completedCrop={completedCrop} ref={previewCanvasRef} />{' '}
@@ -84,7 +92,11 @@ export default function CropPreview({ imgSrc, whiteBoardId, selectedCrops }: Cro
           />
         </>
       )}
-      <LabelStep step={3} text="Confirm your selections" />
+      <LabelStep
+        step={3}
+        text="Confirm your selections"
+        caption="Final checks. If you need to redo something on Step 1, press click the Reset Image button to restore the original image. Otherwise proceed to labelling to move on to the next step."
+      />
       <CroppedImages selectedCrops={selectedCrops} croppedImages={croppedImages} />
       <div className="flex gap-2 flex-col">
         <ProceedToLabellingButton croppedImages={croppedImages} />
