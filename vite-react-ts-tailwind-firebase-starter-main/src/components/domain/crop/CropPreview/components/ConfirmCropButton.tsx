@@ -1,6 +1,6 @@
 import { RefObject } from 'react';
 import { PixelCrop } from 'react-image-crop';
-import { useAuthState } from '~/components/contexts/UserContext';
+import { useUserEmail } from '~/components/contexts/UserContext';
 import { useUpsertDoc } from '~/lib/firestore';
 import { loadImage } from '~/lib/image';
 import { getCroppedImage } from '../utilities/getCroppedImage';
@@ -26,20 +26,21 @@ export const ConfirmCropButton = ({
   whiteBoardId,
 }: ConfirmCropButtonProps) => {
   const uploadImageChunkMutation = useUpsertDoc('chunks', null);
-  const { state: authState } = useAuthState();
+  const userEmail = useUserEmail();
 
   const onClick = async () => {
     if (imgRef.current) {
       const image = await loadImage(imgRef.current.src, imgRef.current.width, imgRef.current.height);
       try {
         const addCroppedImageToCollection = async () => {
-          if (previewCanvasRef.current && authState.state == 'SIGNED_IN') {
+          if (previewCanvasRef.current) {
             const croppedImage = await loadImage(getCroppedImage(image, previewCanvasRef.current, completedCrop));
             addChunk(croppedImage);
+            console.log('added croppedImage');
 
             // Get chunk data
             await uploadImageChunkMutation.mutate({
-              uploadedBy: authState.currentUser.email,
+              uploadedBy: userEmail,
               uploadDate: new Date(),
               croppedImageSrc: croppedImage.src,
               whiteBoardId: whiteBoardId,
