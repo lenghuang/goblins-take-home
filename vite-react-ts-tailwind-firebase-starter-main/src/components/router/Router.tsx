@@ -10,6 +10,7 @@ const ProfileScreen = lazy(() => import('~/components/screens/Profile'));
 const LabelScreen = lazy(() => import('~/components/screens/Label'));
 const CropScreen = lazy(() => import('~/components/screens/Crop'));
 const UploadDataScreen = lazy(() => import('~/components/screens/UploadData'));
+const ViewLabelScreen = lazy(() => import('~/components/screens/ViewLabels'));
 const Page404Screen = lazy(() => import('~/components/screens/404'));
 
 function Layout() {
@@ -66,6 +67,10 @@ const InnerRouter = () => {
         {
           path: '/upload',
           element: <UploadDataScreen />,
+        },
+        {
+          path: '/download',
+          element: <ViewLabelScreen />,
         },
         {
           path: '*',

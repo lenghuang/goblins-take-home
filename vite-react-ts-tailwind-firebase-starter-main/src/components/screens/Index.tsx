@@ -13,8 +13,8 @@ function DashboardOptions() {
         <a href="/upload">
           <button className="btn btn-outline btn-primary w-full">Upload More Data</button>
         </a>
-        <a href="/todo">
-          <button className="btn btn-outline btn-primary w-full">View Labeled Data</button>
+        <a href="/download">
+          <button className="btn btn-outline btn-primary w-full">Download Labeled Data</button>
         </a>
       </>
     );
