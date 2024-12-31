@@ -7,14 +7,7 @@ export function LabelForId({ labelId }: { labelId: string }) {
   const { selectedCrops, isSelectedCropsLoading, isSelectedCropsError } = useSelectedCropsData(labelId);
   const [inputs, setInputs] = useState<Record<string, string>>({});
   const [blurredInputs, setBlurredInputs] = useState<Record<string, string>>({});
-
-  const handleInputChange = (cropId: string) => (value: string) => {
-    setInputs((prev) => ({ ...prev, [cropId]: value }));
-  };
-
-  const handleBlurredInputs = (cropId: string) => (value: string) => {
-    setBlurredInputs((prev) => ({ ...prev, [cropId]: value }));
-  };
+  const [confidences, setConfidences] = useState<Record<string, number>>({});
 
   if (isSelectedCropsLoading) {
     return <p> Loading... </p>;
@@ -35,11 +28,13 @@ export function LabelForId({ labelId }: { labelId: string }) {
           {selectedCrops?.map((crop, i) => (
             <div key={`Label_Crop_${i}_${crop.cropId}`}>
               <LabelCard
+                index={i + 1}
                 crop={crop}
                 inputValue={inputs[crop.cropId]}
-                handleInputs={handleInputChange(crop.cropId)}
+                handleInputs={(value: string) => setInputs((prev) => ({ ...prev, [crop.cropId]: value }))}
                 blurredInputValue={blurredInputs[crop.cropId]}
-                handleBlurredInputs={handleBlurredInputs(crop.cropId)}
+                handleBlurredInputs={(value: string) => setBlurredInputs((prev) => ({ ...prev, [crop.cropId]: value }))}
+                onConfidenceChange={(value: number) => setConfidences((prev) => ({ ...prev, [crop.cropId]: value }))}
               />
             </div>
           ))}
