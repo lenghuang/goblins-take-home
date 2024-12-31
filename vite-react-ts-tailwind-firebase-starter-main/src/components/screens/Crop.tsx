@@ -23,7 +23,7 @@ function Crop() {
     <>
       <Head title="Crop" />
       <div className="min-h-full p-8">
-        <h1 className="text-3xl font-bold mb-2">Label the Whiteboard</h1>
+        <h1 className="text-3xl font-bold mb-2">Crop the Whiteboard</h1>
         {cropId ? <CropForId labelId={cropId} /> : <MissingCropId />}
       </div>
     </>
