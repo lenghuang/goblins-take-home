@@ -10,6 +10,7 @@ export const LabelCard = ({
   blurredInputValue,
   handleBlurredInputs,
   onConfidenceChange,
+  error,
 }: {
   index: number;
   crop: GetSelectedCropsResult;
@@ -18,10 +19,11 @@ export const LabelCard = ({
   blurredInputValue: string;
   handleBlurredInputs: (value: string) => void;
   onConfidenceChange: (value: number) => void;
+  error: string | undefined;
 }) => {
   return (
     <div className="card md:card-side bg-base-100 shadow-xl border-2 ">
-      <LabelCardBadge value={blurredInputValue} />
+      <LabelCardBadge error={error} value={blurredInputValue} />
       <figure className="border-r-2 p-4 w-1/4 overflow-auto">
         <img className="w-min" src={crop.croppedImageSrc} />
       </figure>
@@ -42,14 +44,15 @@ export const LabelCard = ({
         </code>
         <LabelCardStep step={`${index}.2`} text="Give a confidence rating" />
         <ConfidenceRating index={index} onConfidenceChange={onConfidenceChange} />
+        {error && <p className="text-error">{error}</p>}
       </div>
     </div>
   );
 };
 
-const LabelCardBadge = ({ value }: { value: string }) => (
-  <div className={`badge absolute top-4 right-4 ${value ? 'badge-primary' : 'badge-warning'}`}>
-    {value ? 'Done' : 'Todo'}
+const LabelCardBadge = ({ value, error }: { value: string; error: string | undefined }) => (
+  <div className={`badge absolute top-4 right-4 ${error ? 'badge-error' : value ? 'badge-primary' : 'badge-warning'}`}>
+    {error ? 'Error' : value ? 'Done' : 'Todo'}
   </div>
 );
 
