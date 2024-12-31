@@ -101,6 +101,10 @@ Both these PR's contain failr descriptive gifs.
 
 I have a few ideas for how to improve the cropping experience, like being able to undo, and more. But for now, a user can refresh if they mess up, and can keep track of what they've cropped so far both because we white it out and because we show them a gallery of cards. While the UI can be improved, I'm gonna keep powering on and now add a math keyboard for people to input formulas into.
 
-![LabelV0](LabelV0png)
+![LabelV0](LabelV0.png)
 
 I quickly whipped together that shows at once for all of the possible chunks associated with a whiteboard. While there are improvements that could be made with the UI, I felt that this was good enough for now and was something I could revisit in the future. The biggest slowdown I could see at this page would be unfamiliar math expressions, like `\cancel{}`, so I would want to add a few buttons that contractors could use as short cuts in the labelling process. This is something I'll do after I link the backend to everything. I think TailwindCSS has quite a nice example of docs that you can just search, so I would probably start with a cheat sheet that could be build out into its own set of docs in the future.
+
+![LabelConfirmButton](LabelConfirmButton.png)
+
+I was running into some issues with losing my data on refresh because of the HMR from vite, so I quickly added some session storage capabilities. This will also help contractors who may refresh their screen for whatever reason (slow connection, etc). This was needed for me to begin working on the next step, which is persisting that data to the database.
