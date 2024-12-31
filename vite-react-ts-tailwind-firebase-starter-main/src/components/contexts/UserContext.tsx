@@ -1,5 +1,6 @@
 import { User } from 'firebase/auth';
 import { createContext, ReactNode, useContext, useReducer } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 type AuthActions = { type: 'SIGN_IN'; payload: { user: User } } | { type: 'SIGN_OUT' };
 
@@ -67,4 +68,12 @@ const useSignOut = () => {
   };
 };
 
-export { AuthProvider, useAuthState, useSignIn, useSignOut };
+const useOnlyAllowSignedInUsers = () => {
+  const navigate = useNavigate();
+  const { state } = useContext(AuthContext);
+  if (state.state === 'SIGNED_OUT') {
+    navigate('/profile');
+  }
+};
+
+export { AuthProvider, useAuthState, useOnlyAllowSignedInUsers, useSignIn, useSignOut };
