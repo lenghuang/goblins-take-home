@@ -1,38 +1,60 @@
 import { RefObject } from 'react';
 import { PixelCrop } from 'react-image-crop';
+import { useAuthState } from '~/components/contexts/UserContext';
+import { useUpsertDoc } from '~/lib/firestore';
 import { loadImage } from '~/lib/image';
 import { getCroppedImage } from '../utilities/getCroppedImage';
 import { setCroppedAreaToWhite } from '../utilities/setCroppedAreaToWhite';
 
 interface ConfirmCropButtonProps {
   imgRef: RefObject<HTMLImageElement>;
+  imgSrc: string; // original image
   previewCanvasRef: RefObject<HTMLCanvasElement>;
   completedCrop: PixelCrop;
   setImage: (newImage: HTMLImageElement) => void;
   addChunk: (newImage: HTMLImageElement) => void;
+  whiteBoardId: string;
 }
 
 export const ConfirmCropButton = ({
   imgRef,
+  imgSrc,
   previewCanvasRef,
   completedCrop,
   setImage,
   addChunk,
+  whiteBoardId,
 }: ConfirmCropButtonProps) => {
+  const uploadImageChunkMutation = useUpsertDoc('chunks', null);
+  const { state: authState } = useAuthState();
+
   const onClick = async () => {
-    if (imgRef.current && previewCanvasRef.current) {
+    if (imgRef.current) {
       const image = await loadImage(imgRef.current.src, imgRef.current.width, imgRef.current.height);
       try {
-        // Scale the cropped image based on the original image
-        const croppedImage = await loadImage(getCroppedImage(image, previewCanvasRef.current, completedCrop));
-        addChunk(croppedImage);
-        // You can also handle the offscreen image blob for further processing (e.g., uploading)
-        // const blob = await offscreen.convertToBlob({ type: 'image/png' });
-        // console.log(blob); // For example, you can upload it or store it as needed
+        const addCroppedImageToCollection = async () => {
+          if (previewCanvasRef.current && authState.state == 'SIGNED_IN') {
+            const croppedImage = await loadImage(getCroppedImage(image, previewCanvasRef.current, completedCrop));
+            addChunk(croppedImage);
 
-        // Generate the image with the cropped area set to white
-        const croppedAreaRemovedImage = await loadImage(setCroppedAreaToWhite(image, completedCrop));
-        setImage(croppedAreaRemovedImage);
+            // Get chunk data
+            await uploadImageChunkMutation.mutate({
+              uploadedBy: authState.currentUser.email,
+              uploadDate: new Date(),
+              croppedImageSrc: croppedImage.src,
+              whiteBoardId: whiteBoardId,
+              whiteBoardImageUrl: imgSrc,
+            });
+          }
+        };
+
+        const whiteOutCroppedAreaInOriginalImage = async () => {
+          const croppedAreaRemovedImage = await loadImage(setCroppedAreaToWhite(image, completedCrop));
+          setImage(croppedAreaRemovedImage);
+        };
+
+        addCroppedImageToCollection();
+        whiteOutCroppedAreaInOriginalImage();
       } catch (err) {
         console.error(err);
       }

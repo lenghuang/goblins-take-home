@@ -33,8 +33,7 @@ export function CropForId({ labelId }: { labelId: string }) {
 
   return (
     <div className="p-4 flex-col flex justify-center max-w-80">
-      {/* <img className=" shadow-lg border-2" src={data.imageUrl}></img> */}
-      <CropPreview imgSrc={data.imageUrl} />
+      <CropPreview imgSrc={data.imageUrl} whiteBoardId={labelId} />
     </div>
   );
 }

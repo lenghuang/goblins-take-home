@@ -16,9 +16,10 @@ import { ResetImageButton } from './components/ResetImageButton';
 
 interface CropPreviewProps {
   imgSrc: string;
+  whiteBoardId: string;
 }
 
-export default function CropPreview({ imgSrc }: CropPreviewProps) {
+export default function CropPreview({ imgSrc, whiteBoardId }: CropPreviewProps) {
   const previewCanvasRef = useRef<HTMLCanvasElement>(null);
   const [image, setImage] = useState<HTMLImageElement>();
   const [croppedImages, setCroppedImages] = useState<Array<HTMLImageElement>>([]);
@@ -69,6 +70,7 @@ export default function CropPreview({ imgSrc }: CropPreviewProps) {
           <PreviewImageOfCrop completedCrop={completedCrop} ref={previewCanvasRef} />{' '}
           <ConfirmCropButton
             imgRef={imgRef}
+            imgSrc={imgSrc}
             previewCanvasRef={previewCanvasRef}
             completedCrop={completedCrop}
             setImage={(callbackImage) => {
@@ -76,6 +78,7 @@ export default function CropPreview({ imgSrc }: CropPreviewProps) {
               updateImageInSessionStorage(imgSrc, callbackImage);
             }}
             addChunk={(callbackImage) => setCroppedImages((prev) => prev.concat(callbackImage))}
+            whiteBoardId={whiteBoardId}
           />
         </>
       )}
