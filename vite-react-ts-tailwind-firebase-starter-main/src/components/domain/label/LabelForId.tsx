@@ -23,8 +23,19 @@ export function LabelForId({ labelId }: { labelId: string }) {
     return <p> Loading... </p>;
   }
 
-  if (isSelectedCropsError || !selectedCrops) {
+  if (isSelectedCropsError) {
     return <p className="text-red-500"> Something went wrong. </p>;
+  }
+
+  if (!selectedCrops) {
+    return (
+      <div className="flex gap-4 flex-col">
+        <p> No cropped images to label yet. </p>
+        <a href={`/crop?id=${labelId}`}>
+          <button className="btn">Create Cropped Images</button>
+        </a>
+      </div>
+    );
   }
 
   const onClick = () => {
