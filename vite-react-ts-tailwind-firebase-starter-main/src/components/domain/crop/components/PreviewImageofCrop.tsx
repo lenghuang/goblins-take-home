@@ -12,11 +12,11 @@ export const PreviewImageOfCrop = forwardRef<HTMLCanvasElement, PreviewImageOfCr
         <div className="border-2 shadow-xl overflow-hidden w-full flex justify-center">
           <canvas
             ref={ref}
-            className="border-4 border-dotted py-2"
+            className="border-4 border-dotted "
             style={{
               objectFit: 'contain',
-              width: completedCrop.width + 8, // +8 to account for added padding
-              height: completedCrop.height + 8, // +8 to account for added padding
+              width: completedCrop.width,
+              height: completedCrop.height,
             }}
           />
         </div>

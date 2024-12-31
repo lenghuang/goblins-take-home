@@ -1,3 +1,7 @@
+// Decided to no longer use this component for now because the graphics code of
+// figuring out rotation and scaling was a bit of a headache at the time of
+// implementing and not the most important thing (for now)
+
 import { ChangeEventHandler } from 'react';
 
 interface AdditionalControlsProps {
@@ -5,7 +9,6 @@ interface AdditionalControlsProps {
   onScaleChange: ChangeEventHandler<any>;
   rotateValue: number;
   onRotateChange: ChangeEventHandler<any>;
-  disabled: boolean;
 }
 
 export function AdditionalControls({
@@ -13,7 +16,6 @@ export function AdditionalControls({
   onScaleChange,
   rotateValue,
   onRotateChange,
-  disabled,
 }: AdditionalControlsProps) {
   return (
     <div className="flex gap-4 flex-row flex-wrap">
@@ -27,7 +29,6 @@ export function AdditionalControls({
           type="number"
           step="0.1"
           value={scaleValue}
-          disabled={disabled}
           onChange={onScaleChange}
         />
       </div>
@@ -40,7 +41,6 @@ export function AdditionalControls({
           id="rotate-input"
           type="number"
           value={rotateValue}
-          disabled={disabled}
           onChange={onRotateChange}
         />
       </div>
