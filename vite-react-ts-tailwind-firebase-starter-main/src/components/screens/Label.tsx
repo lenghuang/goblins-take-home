@@ -24,9 +24,6 @@ function Label() {
       <Head title="Label" />
       <div className="min-h-full p-8">
         <h1 className="text-3xl font-bold mb-2">Label the Whiteboard</h1>
-        <p>
-          Please do your best to select one line of math at a time, or whatever guarantees a higher confidence result.
-        </p>
         {labelId ? <LabelForId labelId={labelId} /> : <MissingLabelId />}
       </div>
     </>

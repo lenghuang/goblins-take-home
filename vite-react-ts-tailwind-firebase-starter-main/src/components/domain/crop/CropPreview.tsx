@@ -7,6 +7,9 @@ import { useDebounceEffect } from './utilities/useDebounceEffect';
 
 import 'react-image-crop/dist/ReactCrop.css';
 import { AdditionalControls } from './components/AdditionalControls';
+import { ConfirmCropButton } from './components/ConfirmCropButton';
+import { LabelStep } from './components/LabelStep';
+import { PreviewImageOfCrop } from './components/PreviewImageofCrop';
 
 interface CropPreviewProps {
   imgSrc: string;
@@ -32,33 +35,16 @@ export default function CropPreview({ imgSrc }: CropPreviewProps) {
   );
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-6">
+      <LabelStep step={1} text="Drag and drop to select a section to label" />
       <ReactCrop
-        className="m-8 border-2 shadow-xl overflow-hidden"
+        className="border-2 shadow-xl overflow-hidden"
         crop={crop}
         onChange={(_, percentCrop) => setCrop(percentCrop)}
         onComplete={(c) => setCompletedCrop(c)}
       >
         <img ref={imgRef} alt="Crop me" src={imgSrc} style={{ transform: `scale(${scale}) rotate(${rotate}deg)` }} />
       </ReactCrop>
-
-      <p className="text-md font-semibold"> Make a selection to see the preview here </p>
-      {!!completedCrop && (
-        <>
-          <div>
-            <canvas
-              ref={previewCanvasRef}
-              style={{
-                border: '1px solid black',
-                objectFit: 'contain',
-                width: completedCrop.width,
-                height: completedCrop.height,
-              }}
-            />
-          </div>
-        </>
-      )}
-
       <AdditionalControls
         disabled={!imgSrc}
         scaleValue={scale}
@@ -66,6 +52,15 @@ export default function CropPreview({ imgSrc }: CropPreviewProps) {
         rotateValue={rotate}
         onRotateChange={(e) => setRotate(Math.min(180, Math.max(-180, Number(e.target.value))))}
       />
+      <LabelStep step={2} text="Confirm your crop" />
+      {!!completedCrop && (
+        <>
+          <PreviewImageOfCrop completedCrop={completedCrop} ref={previewCanvasRef} />{' '}
+          <ConfirmCropButton imgRef={imgRef} previewCanvasRef={previewCanvasRef} completedCrop={completedCrop} />
+        </>
+      )}
+
+      <LabelStep step={2} text="Confirm your selections" />
     </div>
   );
 }

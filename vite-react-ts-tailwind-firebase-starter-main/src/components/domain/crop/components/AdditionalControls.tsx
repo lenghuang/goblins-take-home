@@ -16,7 +16,7 @@ export function AdditionalControls({
   disabled,
 }: AdditionalControlsProps) {
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex gap-4 flex-row flex-wrap">
       <div className="flex justify-between w-72 items-center">
         <label className="text-md font-semibold" htmlFor="scale-input">
           Scale:{' '}
