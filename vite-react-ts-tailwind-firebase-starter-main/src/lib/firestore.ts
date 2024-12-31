@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { collection, doc, getDoc, setDoc } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs, query, QueryConstraint, setDoc } from 'firebase/firestore';
 import { useFirestore } from './firebase';
 
 export const useGetDocData = (collectionName: string, id: string) => {
@@ -51,4 +51,30 @@ export const useUpsertDoc = (collectionName: string, id: string | null) => {
       return docRef.id;
     },
   });
+};
+
+export const useGetDocsData = (collectionName: string, ...queryConstraints: Array<QueryConstraint>) => {
+  const firestore = useFirestore();
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['useGetDocsData', collectionName, JSON.stringify(queryConstraints)],
+    queryFn: async () => {
+      // Build the query with the given constraints
+      const docRefs = query(collection(firestore, collectionName), ...queryConstraints);
+      const docSnap = await getDocs(docRefs);
+
+      // Process the results and return the documents' data
+      let documents: any = [];
+
+      docSnap.forEach((doc) => {
+        const docData = doc.data();
+        documents.push({ documentId: doc.id, ...docData });
+      });
+
+      return documents;
+    },
+    staleTime: 1000 * 60 * 1, // 1 minute stale time
+  });
+
+  return { data, isLoading, isError };
 };

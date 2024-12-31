@@ -7,6 +7,7 @@ import { useDebounceEffect } from './utilities/useDebounceEffect';
 
 import 'react-image-crop/dist/ReactCrop.css';
 import { loadImageFromSessionStorage, storeImageInSessionStorage, updateImageInSessionStorage } from '~/lib/image';
+import { GetSelectedCropsResult } from '~/types/chunkData';
 import { ConfirmCropButton } from './components/ConfirmCropButton';
 import { CroppedImages } from './components/CroppedImages';
 import { LabelStep } from './components/LabelStep';
@@ -17,9 +18,10 @@ import { ResetImageButton } from './components/ResetImageButton';
 interface CropPreviewProps {
   imgSrc: string;
   whiteBoardId: string;
+  selectedCrops: Array<GetSelectedCropsResult>;
 }
 
-export default function CropPreview({ imgSrc, whiteBoardId }: CropPreviewProps) {
+export default function CropPreview({ imgSrc, whiteBoardId, selectedCrops }: CropPreviewProps) {
   const previewCanvasRef = useRef<HTMLCanvasElement>(null);
   const [image, setImage] = useState<HTMLImageElement>();
   const [croppedImages, setCroppedImages] = useState<Array<HTMLImageElement>>([]);
@@ -83,7 +85,8 @@ export default function CropPreview({ imgSrc, whiteBoardId }: CropPreviewProps) 
         </>
       )}
       <LabelStep step={3} text="Confirm your selections" />
-      {croppedImages?.length > 0 && <CroppedImages croppedImages={croppedImages} />}
+      {croppedImages?.length > 0 ||
+        (selectedCrops?.length > 0 && <CroppedImages selectedCrops={selectedCrops} croppedImages={croppedImages} />)}
       <div className="flex gap-2 flex-col">
         <ProceedToLabellingButton croppedImages={croppedImages} />
         <ResetImageButton imgSrc={imgSrc} />

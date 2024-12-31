@@ -76,4 +76,13 @@ const useOnlyAllowSignedInUsers = () => {
   }
 };
 
-export { AuthProvider, useAuthState, useOnlyAllowSignedInUsers, useSignIn, useSignOut };
+const useUserEmail = () => {
+  const { state } = useContext(AuthContext);
+  if (state.state == 'SIGNED_IN') {
+    return state.currentUser.email;
+  } else {
+    return '';
+  }
+};
+
+export { AuthProvider, useAuthState, useOnlyAllowSignedInUsers, useSignIn, useSignOut, useUserEmail };
