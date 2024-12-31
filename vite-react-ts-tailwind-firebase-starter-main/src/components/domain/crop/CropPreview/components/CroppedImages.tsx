@@ -13,7 +13,7 @@ export const CroppedImages = ({
 }) => {
   const userEmail = useUserEmail();
   const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
-  const deleteChunkMutation = useDeleteDoc('chunks');
+  const deleteChunkMutation = useDeleteDoc('chunks', () => location.reload());
 
   return (
     <div className="flex flex-row flex-wrap gap-4 justify-center">
@@ -31,7 +31,6 @@ export const CroppedImages = ({
                   onClick={async () => {
                     setDeleteLoading(true);
                     await deleteChunkMutation.mutate(crop.cropId);
-                    location.reload();
                   }}
                   className="underline hover:text-warning"
                 >

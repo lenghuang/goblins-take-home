@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { collection, deleteDoc, doc, getDoc, getDocs, query, QueryConstraint, setDoc } from 'firebase/firestore';
 import { useFirestore } from './firebase';
 
@@ -79,9 +79,9 @@ export const useGetDocsData = (collectionName: string, ...queryConstraints: Arra
   return { data, isLoading, isError };
 };
 
-export const useDeleteDoc = (collectionName: string) => {
+export const useDeleteDoc = (collectionName: string, onSuccess: () => void = () => {}) => {
   const firestore = useFirestore();
-
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (id: string) => {
       // Reference the document to be deleted
@@ -92,6 +92,12 @@ export const useDeleteDoc = (collectionName: string) => {
 
       // Optionally return the id of the deleted document for confirmation
       return id;
+    },
+    onSuccess: () => {
+      // Invalidate queries when mutation is successful
+      queryClient.invalidateQueries({ queryKey: ['useGetDocsData', collectionName] });
+      queryClient.invalidateQueries({ queryKey: ['useGetDocData', collectionName] });
+      onSuccess();
     },
   });
 };
