@@ -24,15 +24,18 @@ export const useGetDocData = (collectionName: string, id: string) => {
   return { data, isLoading, isError };
 };
 
-export const useUpsertDoc = (collectionName: string) => {
+export const useUpsertDoc = (collectionName: string, skipIfExists: boolean) => {
   const firestore = useFirestore();
 
   return useMutation({
     mutationFn: async (data: any) => {
       let docRef;
+      let newData = data;
 
       // If an ID is provided, use it, otherwise create a reference with a new ID
       if (data.documentId) {
+        const { documentId, ...restOfData } = data;
+        newData = restOfData;
         docRef = doc(firestore, collectionName, data.documentId);
       } else {
         docRef = doc(collection(firestore, collectionName)); // Automatically generates a new ID
@@ -42,10 +45,12 @@ export const useUpsertDoc = (collectionName: string) => {
 
       if (docSnap.exists()) {
         // Document exists, perform an update
-        await setDoc(docRef, data, { merge: true });
+        if (!skipIfExists) {
+          await setDoc(docRef, newData, { merge: true });
+        }
       } else {
         // Document does not exist, create a new document
-        await setDoc(docRef, data);
+        await setDoc(docRef, newData);
       }
 
       return docRef.id;

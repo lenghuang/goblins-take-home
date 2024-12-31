@@ -2,7 +2,6 @@ import { useSearchParams } from 'react-router-dom';
 import { Head } from '~/components/shared/Head';
 import { useOnlyAllowSignedInUsers } from '../contexts/UserContext';
 import { LabelForId } from '../domain/label/LabelForId';
-import { MissingLabelId } from '../domain/label/MissingLabelId';
 
 function useIdFromUrl(): { labelId: string | null } {
   const [searchParams] = useSearchParams();
@@ -24,7 +23,16 @@ function Label() {
       <Head title="Label" />
       <div className="min-h-full p-8">
         <h1 className="text-3xl font-bold mb-2">Label the Whiteboard</h1>
-        {labelId ? <LabelForId labelId={labelId} /> : <MissingLabelId />}
+        {labelId ? (
+          <LabelForId labelId={labelId} />
+        ) : (
+          <div className="flex gap-4 flex-col">
+            <p> Choose a cropped image to label </p>
+            <a href={`/crop`}>
+              <button className="btn">Create Cropped Images</button>
+            </a>
+          </div>
+        )}
       </div>
     </>
   );
