@@ -93,6 +93,10 @@ Despite what I said earlier, I don't think I'm going to account for rotation and
 
 Progress Until This Point: https://github.com/lenghuang/goblins-take-home/pull/1
 
+I then took some time to hash out some bugs, spruce up the UI, and fix some data consistency issues. https://github.com/lenghuang/goblins-take-home/pull/2
+
+Both these PR's contain failr descriptive gifs.
+
 ## Adding Math Keyboard
 
 I have a few ideas for how to improve the cropping experience, like being able to undo, and more. But for now, a user can refresh if they mess up, and can keep track of what they've cropped so far both because we white it out and because we show them a gallery of cards. While the UI can be improved, I'm gonna keep powering on and now add a math keyboard for people to input formulas into.
