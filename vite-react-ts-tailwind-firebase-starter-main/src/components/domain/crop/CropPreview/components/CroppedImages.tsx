@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useUserEmail } from '~/components/contexts/UserContext';
 import { formatFirestoreTimestampAgo } from '~/lib/dates';
+import { useDeleteDoc } from '~/lib/firestore';
 import { GetSelectedCropsResult } from '~/types/chunkData';
 
 export const CroppedImages = ({
@@ -12,6 +13,7 @@ export const CroppedImages = ({
 }) => {
   const userEmail = useUserEmail();
   const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
+  const deleteChunkMutation = useDeleteDoc('chunks');
 
   return (
     <div className="flex flex-row flex-wrap gap-4 justify-center">
@@ -28,6 +30,8 @@ export const CroppedImages = ({
                   disabled={deleteLoading}
                   onClick={async () => {
                     setDeleteLoading(true);
+                    await deleteChunkMutation.mutate(crop.cropId);
+                    location.reload();
                   }}
                   className="underline hover:text-warning"
                 >
