@@ -13,3 +13,13 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
+
+math-field {
+  display: block;
+  border: solid 1px gray;
+  padding: 4px;
+  font-size: 18px;
+  border-radius: 12px;
+  overflow: hidden;
+  width: 100%;
+}
