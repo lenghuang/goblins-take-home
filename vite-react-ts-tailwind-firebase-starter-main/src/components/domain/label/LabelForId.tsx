@@ -1,5 +1,6 @@
 import { useGetDocData } from '~/lib/firestore';
 import { LabelData } from '~/types/labelData';
+import CropPreview from '../crop/CropPreview';
 
 const useLabelData = (labelId: string): { data: LabelData | undefined; isLoading: boolean; isError: boolean } => {
   const { data, isLoading, isError } = useGetDocData('jobs', labelId);
@@ -32,7 +33,8 @@ export function LabelForId({ labelId }: { labelId: string }) {
 
   return (
     <div className="p-4 flex-col flex justify-center max-w-80">
-      <img className=" shadow-lg border-2" src={data.imageUrl}></img>
+      {/* <img className=" shadow-lg border-2" src={data.imageUrl}></img> */}
+      <CropPreview imgSrc={data.imageUrl} />
     </div>
   );
 }
