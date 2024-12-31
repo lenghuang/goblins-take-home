@@ -1,9 +1,5 @@
 import { useGetDocData } from '~/lib/firestore';
-
-interface LabelData {
-  imageUrl: string;
-  labelState: 0 | 1 | 2; // Unlabelled, Partially Labelled, Labelled
-}
+import { LabelData } from '~/types/labelData';
 
 const useLabelData = (labelId: string): { data: LabelData | undefined; isLoading: boolean; isError: boolean } => {
   const { data, isLoading, isError } = useGetDocData('jobs', labelId);
@@ -35,8 +31,8 @@ export function LabelForId({ labelId }: { labelId: string }) {
   }
 
   return (
-    <div className="p-8 max-w-300">
-      <img className="shadow-lg border-2" src={data.imageUrl}></img>
+    <div className="p-4 flex-col flex justify-center max-w-80">
+      <img className=" shadow-lg border-2" src={data.imageUrl}></img>
     </div>
   );
 }

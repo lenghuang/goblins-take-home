@@ -16,8 +16,8 @@ function useIdFromUrl(): { labelId: string | null } {
 }
 
 function Label() {
-  useOnlyAllowSignedInUsers(); // Kick users out if not signed in
   const { labelId } = useIdFromUrl();
+  useOnlyAllowSignedInUsers(); // Kick users out if not signed in
 
   return (
     <>
