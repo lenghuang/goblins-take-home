@@ -1,3 +1,4 @@
+import { saveAs } from 'file-saver';
 import { useState } from 'react';
 import { formatFirestoreTimestampAgo } from '~/lib/dates';
 import { useGetPaginatedDocs } from '~/lib/firestore';
@@ -42,6 +43,21 @@ function usePaginatedLabelledCrops() {
 export default function LabelledCropsPage() {
   const { labelledCropsData, isLabelledCropsLoading, isLabelledCropsError, nextPage, isLastPage } =
     usePaginatedLabelledCrops();
+
+  const convertToCSV = (jsonList: any[]) => {
+    if (!jsonList || jsonList.length === 0) return '';
+
+    const headers = Object.keys(jsonList[0]);
+    const rows = jsonList.map((row) => headers.map((header) => `"${row[header] || ''}"`).join(','));
+
+    return [headers.join(','), ...rows].join('\n');
+  };
+
+  const downloadCSV = () => {
+    const csv = convertToCSV(labelledCropsData);
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    saveAs(blob, 'labelledWhiteboards.csv');
+  };
 
   if (isLabelledCropsLoading) return <div>Loading...</div>;
   if (isLabelledCropsError) return <div>Error loading labelled crops.</div>;
@@ -106,6 +122,9 @@ export default function LabelledCropsPage() {
       <div className="flex justify-center gap-4 mt-8">
         <button onClick={nextPage} className="btn btn-primary" disabled={isLastPage}>
           Load More
+        </button>
+        <button onClick={downloadCSV} className="btn btn-secondary" disabled={isLastPage}>
+          Download As CSV
         </button>
       </div>
     </div>
