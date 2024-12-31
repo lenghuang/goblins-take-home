@@ -99,7 +99,11 @@ export default function CropPreview({ imgSrc, whiteBoardId, selectedCrops }: Cro
       />
       <CroppedImages selectedCrops={selectedCrops} croppedImages={croppedImages} />
       <div className="flex gap-2 flex-col">
-        <ProceedToLabellingButton croppedImages={croppedImages} />
+        <ProceedToLabellingButton
+          whiteBoardId={whiteBoardId}
+          selectedCrops={selectedCrops}
+          croppedImages={croppedImages}
+        />
         <ResetImageButton imgSrc={imgSrc} />
       </div>
     </div>
