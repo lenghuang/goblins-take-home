@@ -7,10 +7,11 @@ import { useDebounceEffect } from './utilities/useDebounceEffect';
 
 import 'react-image-crop/dist/ReactCrop.css';
 import { loadImageFromSessionStorage, storeImageInSessionStorage } from '~/lib/image';
-import { AdditionalControls } from './components/AdditionalControls';
 import { ConfirmCropButton } from './components/ConfirmCropButton';
+import { CroppedImages } from './components/CroppedImages';
 import { LabelStep } from './components/LabelStep';
 import { PreviewImageOfCrop } from './components/PreviewImageofCrop';
+import { ProceedToLabellingButton } from './components/ProceedToLabellingButton';
 
 interface CropPreviewProps {
   imgSrc: string;
@@ -23,18 +24,16 @@ export default function CropPreview({ imgSrc }: CropPreviewProps) {
   const imgRef = useRef<HTMLImageElement>(null);
   const [crop, setCrop] = useState<Crop>();
   const [completedCrop, setCompletedCrop] = useState<PixelCrop>();
-  const [scale, setScale] = useState(1);
-  const [rotate, setRotate] = useState(0);
 
   useDebounceEffect(
     async () => {
       if (completedCrop?.width && completedCrop?.height && imgRef.current && previewCanvasRef.current) {
         // We use canvasPreview as it's much faster than imgPreview.
-        canvasPreview(imgRef.current, previewCanvasRef.current, completedCrop, scale, rotate);
+        canvasPreview(imgRef.current, previewCanvasRef.current, completedCrop, 1, 0);
       }
     },
     100,
-    [completedCrop, scale, rotate],
+    [completedCrop],
   );
 
   useEffect(() => {
@@ -49,29 +48,18 @@ export default function CropPreview({ imgSrc }: CropPreviewProps) {
 
   return (
     <div className="flex flex-col gap-6">
-      <LabelStep step={1} text="Drag and drop to select a section to label" />
+      <LabelStep step={1} text="Select and crop" />
       <ReactCrop
-        className="border-2 shadow-xl overflow-hidden"
+        className="rounded-xl border-2 shadow-xl overflow-hidden"
         crop={crop}
         onChange={(_, percentCrop) => setCrop(percentCrop)}
         onComplete={(c) => setCompletedCrop(c)}
       >
-        <img
-          ref={imgRef}
-          alt="Crop me"
-          src={image?.src ?? imgSrc}
-          style={{ transform: `scale(${scale}) rotate(${rotate}deg)` }}
-        />
+        <img ref={imgRef} alt="Crop me" src={image?.src ?? imgSrc} />
       </ReactCrop>
-      <AdditionalControls
-        scaleValue={scale}
-        onScaleChange={(e) => setScale(Number(e.target.value))}
-        rotateValue={rotate}
-        onRotateChange={(e) => setRotate(Math.min(180, Math.max(-180, Number(e.target.value))))}
-      />
-      <LabelStep step={2} text="Confirm your crop" />
-      {!!completedCrop && (
+      {completedCrop && completedCrop.height >= 0 && completedCrop.width >= 0 && (
         <>
+          <LabelStep step={2} text="Confirm your crop" />
           <PreviewImageOfCrop completedCrop={completedCrop} ref={previewCanvasRef} />{' '}
           <ConfirmCropButton
             imgRef={imgRef}
@@ -82,13 +70,13 @@ export default function CropPreview({ imgSrc }: CropPreviewProps) {
           />
         </>
       )}
-      <LabelStep step={2} text="Confirm your selections" />
-      {!!croppedImages &&
-        croppedImages?.map((image, i) => (
-          <div key={`Cropped_Images_${i}`} className="border-2 shadow-xl overflow-hidden w-full flex justify-center">
-            <img className="border-4 border-dotted object-contain w-min" src={image.src} />
-          </div>
-        ))}
+      {croppedImages?.length > 0 && (
+        <>
+          <LabelStep step={3} text="Confirm your selections" />
+          <CroppedImages croppedImages={croppedImages} />
+          <ProceedToLabellingButton />
+        </>
+      )}
     </div>
   );
 }
