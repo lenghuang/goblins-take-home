@@ -92,3 +92,7 @@ I decided to follow the example of https://github.com/sekoyo/react-image-crop?ta
 Despite what I said earlier, I don't think I'm going to account for rotation and scaling. The coordinate math became a bit of a headache, and I'm sure I could tackle it with a clear mind, but I decided that it was more important to get the project functioning end to end than to dwell on that.
 
 Progress Until This Point: https://github.com/lenghuang/goblins-take-home/pull/1
+
+## Adding Math Keyboard
+
+I have a few ideas for how to improve the cropping experience, like being able to undo, and more. But for now, a user can refresh if they mess up, and can keep track of what they've cropped so far both because we white it out and because we show them a gallery of cards. While the UI can be improved, I'm gonna keep powering on and now add a math keyboard for people to input formulas into.

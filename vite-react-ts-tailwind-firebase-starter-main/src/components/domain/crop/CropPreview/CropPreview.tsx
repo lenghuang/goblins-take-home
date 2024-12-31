@@ -6,12 +6,13 @@ import { canvasPreview } from './utilities/canvasPreview';
 import { useDebounceEffect } from './utilities/useDebounceEffect';
 
 import 'react-image-crop/dist/ReactCrop.css';
-import { loadImageFromSessionStorage, storeImageInSessionStorage } from '~/lib/image';
+import { loadImageFromSessionStorage, storeImageInSessionStorage, updateImageInSessionStorage } from '~/lib/image';
 import { ConfirmCropButton } from './components/ConfirmCropButton';
 import { CroppedImages } from './components/CroppedImages';
 import { LabelStep } from './components/LabelStep';
 import { PreviewImageOfCrop } from './components/PreviewImageofCrop';
 import { ProceedToLabellingButton } from './components/ProceedToLabellingButton';
+import { ResetImageButton } from './components/ResetImageButton';
 
 interface CropPreviewProps {
   imgSrc: string;
@@ -38,9 +39,14 @@ export default function CropPreview({ imgSrc }: CropPreviewProps) {
 
   useEffect(() => {
     const asyncImageUpdate = async () => {
-      await storeImageInSessionStorage(imgSrc);
       const storedImage = loadImageFromSessionStorage(imgSrc);
-      if (storedImage) setImage(storedImage);
+      if (storedImage) {
+        setImage(storedImage);
+      } else {
+        await storeImageInSessionStorage(imgSrc);
+        const storedImage = loadImageFromSessionStorage(imgSrc);
+        if (storedImage) setImage(storedImage);
+      }
     };
 
     asyncImageUpdate();
@@ -57,26 +63,28 @@ export default function CropPreview({ imgSrc }: CropPreviewProps) {
       >
         <img ref={imgRef} alt="Crop me" src={image?.src ?? imgSrc} />
       </ReactCrop>
+      <LabelStep step={2} text="Confirm your crop" />
       {completedCrop && completedCrop.height >= 0 && completedCrop.width >= 0 && (
         <>
-          <LabelStep step={2} text="Confirm your crop" />
           <PreviewImageOfCrop completedCrop={completedCrop} ref={previewCanvasRef} />{' '}
           <ConfirmCropButton
             imgRef={imgRef}
             previewCanvasRef={previewCanvasRef}
             completedCrop={completedCrop}
-            setImage={setImage}
-            addChunk={(image) => setCroppedImages((prev) => prev.concat(image))}
+            setImage={(callbackImage) => {
+              setImage(callbackImage);
+              updateImageInSessionStorage(imgSrc, callbackImage);
+            }}
+            addChunk={(callbackImage) => setCroppedImages((prev) => prev.concat(callbackImage))}
           />
         </>
       )}
-      {croppedImages?.length > 0 && (
-        <>
-          <LabelStep step={3} text="Confirm your selections" />
-          <CroppedImages croppedImages={croppedImages} />
-          <ProceedToLabellingButton />
-        </>
-      )}
+      <LabelStep step={3} text="Confirm your selections" />
+      {croppedImages?.length > 0 && <CroppedImages croppedImages={croppedImages} />}
+      <div className="flex gap-2 flex-col">
+        <ProceedToLabellingButton croppedImages={croppedImages} />
+        <ResetImageButton imgSrc={imgSrc} />
+      </div>
     </div>
   );
 }
