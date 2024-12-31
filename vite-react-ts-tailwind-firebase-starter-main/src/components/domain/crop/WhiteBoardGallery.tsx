@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useGetPaginatedDocs } from '~/lib/firestore';
+
 function usePaginatedWhiteBoards() {
   const [pageNumber, setPageNumber] = useState(0);
   const [lastDocs, setLastDocs] = useState<any[]>([]); // Stack of lastDocs

@@ -167,17 +167,19 @@ export const useGetPaginatedDocs = (
   pageNumber: number,
   pageSize: number,
   lastDoc: any = null,
+  ...queryConstraints: Array<QueryConstraint>
 ) => {
   const firestore = useFirestore();
 
   const fetchData = async () => {
-    let q = query(collection(firestore, collectionName), orderBy(orderByField), limit(pageSize));
+    let q = query(collection(firestore, collectionName), ...queryConstraints, orderBy(orderByField), limit(pageSize));
 
     if (lastDoc) {
-      q = query(q, startAfter(lastDoc)); // Use startAfter to paginate after the last document
+      q = query(q, ...queryConstraints, startAfter(lastDoc)); // Use startAfter to paginate after the last document
     }
 
     const querySnapshot = await getDocs(q);
+
     const documents: any[] = [];
     let lastVisible = null;
 
@@ -189,10 +191,14 @@ export const useGetPaginatedDocs = (
     return { documents, lastVisible };
   };
 
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ['useGetPaginatedDocs', collectionName, pageNumber, lastDoc],
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ['useGetPaginatedDocs', collectionName, pageNumber, lastDoc, JSON.stringify(queryConstraints)],
     queryFn: fetchData,
   });
+
+  if (isError) {
+    console.error(error);
+  }
 
   return { data, isLoading, isError };
 };
