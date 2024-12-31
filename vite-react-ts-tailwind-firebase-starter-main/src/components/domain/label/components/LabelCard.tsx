@@ -1,5 +1,6 @@
 import { MathfieldElement } from 'mathlive';
 import { GetSelectedCropsResult } from '~/types/chunkData';
+import { FiveStarRatingInput } from './FiveStarRating';
 import '//unpkg.com/mathlive';
 
 export const LabelCard = ({
@@ -70,11 +71,6 @@ const ConfidenceRating = ({
   index: number;
   onConfidenceChange: (rating: number) => void;
 }) => {
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const rating = Number(event.target.value);
-    onConfidenceChange(rating); // Call the handler with the selected rating
-  };
-
   return (
     <div className="rating rating-lg">
       <div className="flex flex-row gap-6 items-center">
@@ -82,29 +78,11 @@ const ConfidenceRating = ({
           <div>😔😔😔</div>
           <div>Least Confident</div>
         </div>
-        <div>
-          <input
-            key={`${index}_confidence_star_0`}
-            type="radio"
-            name={`${index}_label-confidence-rating`}
-            className="rating-hidden hidden"
-            onChange={handleChange}
-            defaultChecked={true}
-          />
-          {Array.from({ length: 5 }, (_, i) => {
-            const value = i + 1;
-            return (
-              <input
-                key={`${index}_confidence_star_${value}`}
-                type="radio"
-                name={`${index}_label-confidence-rating`}
-                value={value}
-                className="mask mask-star-2"
-                onChange={handleChange}
-              />
-            );
-          })}
-        </div>
+        <FiveStarRatingInput
+          index={index}
+          name="confidence-rating-label-input"
+          handleChange={(e) => onConfidenceChange(Number(e.target.value))}
+        />
         <div className="flex flex-col gap-1 items-center justify-center bg-base-200 rounded-xl p-2">
           <div>😄😄😄</div>
           <div>Most Confident</div>

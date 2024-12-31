@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { useSelectedCropsData } from '../crop/CropPreview/utilities/useSelectedCropsData';
-import { LabelCard } from './LabelCard';
-import '//unpkg.com/mathlive';
+import { ConfirmLabelModal } from './components/ConfirmLabelModal';
+import { setErrorsGivenInputAndConfidence } from './components/form-utils';
+import { LabelCard } from './components/LabelCard';
 
 export function LabelForId({ labelId }: { labelId: string }) {
   const { selectedCrops, isSelectedCropsLoading, isSelectedCropsError } = useSelectedCropsData(labelId);
@@ -21,31 +22,8 @@ export function LabelForId({ labelId }: { labelId: string }) {
 
   const onClick = () => {
     setErrors({});
-
-    const inputKeys = Object.keys(inputs);
-    if (selectedCrops.length !== inputKeys.length) {
-      const difference = selectedCrops.filter((x) => !inputKeys.includes(x.cropId));
-      difference.forEach((x) => setErrors((prev) => ({ ...prev, [x.cropId]: 'Missing math input' })));
-      return;
-    }
-
-    const confidenceKeys = Object.keys(confidences);
-    if (selectedCrops.length !== confidenceKeys.length) {
-      const difference = selectedCrops.filter((x) => !confidenceKeys.includes(x.cropId));
-      difference.forEach((x) => setErrors((prev) => ({ ...prev, [x.cropId]: 'Missing confidence rating' })));
-      return;
-    }
-
-    const combinedData = Object.fromEntries(
-      selectedCrops.map((crop) => [
-        crop.cropId,
-        { ...crop, parsedInput: inputs[crop.cropId], parsedInputConfidence: confidences[crop.cropId] },
-      ]),
-    );
-
+    setErrorsGivenInputAndConfidence({ selectedCrops, inputs, confidences }, setErrors);
     setIsModalOpen(true);
-
-    console.log(combinedData);
   };
 
   return (
@@ -73,41 +51,13 @@ export function LabelForId({ labelId }: { labelId: string }) {
           <button onClick={onClick} className="btn btn-primary w-full">
             Submit Your Labels
           </button>
-          <ConfirmLabelModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+          <ConfirmLabelModal
+            labelFormInputs={{ selectedCrops, inputs, confidences }}
+            isModalOpen={isModalOpen}
+            setIsModalOpen={setIsModalOpen}
+          />
         </div>
       </div>
     </>
   );
 }
-
-const ConfirmLabelModal = ({
-  isModalOpen,
-  setIsModalOpen,
-}: {
-  isModalOpen: boolean;
-  setIsModalOpen: (arg: boolean) => void;
-}) => {
-  const modalRef = useRef<HTMLDialogElement | null>(null);
-
-  useEffect(() => {
-    if (isModalOpen && modalRef.current) {
-      modalRef.current.showModal();
-    } else if (!isModalOpen && modalRef.current) {
-      modalRef.current.close();
-    }
-  }, [isModalOpen]);
-
-  return (
-    <dialog ref={modalRef} className="modal">
-      <div className="modal-box w-11/12 max-w-5xl">
-        <h3 className="font-bold text-lg">Hello!</h3>
-        <p className="py-4">Click the button below to close</p>
-        <div className="modal-action">
-          <button onClick={() => setIsModalOpen(false)} className="btn">
-            Close
-          </button>
-        </div>
-      </div>
-    </dialog>
-  );
-};
