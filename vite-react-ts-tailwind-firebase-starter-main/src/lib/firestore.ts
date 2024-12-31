@@ -24,7 +24,7 @@ export const useGetDocData = (collectionName: string, id: string) => {
   return { data, isLoading, isError };
 };
 
-export const useUpsertDoc = (collectionName: string, id: string | null) => {
+export const useUpsertDoc = (collectionName: string) => {
   const firestore = useFirestore();
 
   return useMutation({
@@ -32,8 +32,8 @@ export const useUpsertDoc = (collectionName: string, id: string | null) => {
       let docRef;
 
       // If an ID is provided, use it, otherwise create a reference with a new ID
-      if (id) {
-        docRef = doc(firestore, collectionName, id);
+      if (data.documentId) {
+        docRef = doc(firestore, collectionName, data.documentId);
       } else {
         docRef = doc(collection(firestore, collectionName)); // Automatically generates a new ID
       }
@@ -98,6 +98,50 @@ export const useDeleteDoc = (collectionName: string, onSuccess: () => void = () 
       queryClient.invalidateQueries({ queryKey: ['useGetDocsData', collectionName] });
       queryClient.invalidateQueries({ queryKey: ['useGetDocData', collectionName] });
       onSuccess();
+    },
+  });
+};
+
+// This should probably use setDocs and getDocs (plural) in hindsight....
+export const useUpsertDocs = (collectionName: string) => {
+  const firestore = useFirestore();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (dataArg: any[]) => {
+      const docRefs: string[] = [];
+
+      // Iterate over the array of IDs
+      for (const data of dataArg) {
+        let docRef;
+
+        // If an ID is provided, use it, otherwise create a reference with a new ID
+        if (data.documentId) {
+          docRef = doc(firestore, collectionName, data.documentId);
+        } else {
+          docRef = doc(collection(firestore, collectionName)); // Automatically generates a new ID
+        }
+
+        const docSnap = await getDoc(docRef);
+
+        // Check if the document exists and upsert accordingly
+        if (docSnap.exists()) {
+          console.log('exists');
+          await setDoc(docRef, data, { merge: true });
+        } else {
+          console.log('exists');
+          await setDoc(docRef, data);
+        }
+
+        docRefs.push(docRef.id); // Collect the document reference IDs
+      }
+
+      return docRefs; // Return all created or updated document IDs
+    },
+    onSuccess: () => {
+      // Invalidate queries when mutation is successful
+      queryClient.invalidateQueries({ queryKey: ['useGetDocsData', collectionName] });
+      queryClient.invalidateQueries({ queryKey: ['useGetDocData', collectionName] });
     },
   });
 };
