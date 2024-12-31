@@ -10,7 +10,7 @@ function DashboardOptions() {
       <>
         <StartLabellingButton />
         or consider...
-        <a href="/todo">
+        <a href="/upload">
           <button className="btn btn-outline btn-primary w-full">Upload More Data</button>
         </a>
         <a href="/todo">
