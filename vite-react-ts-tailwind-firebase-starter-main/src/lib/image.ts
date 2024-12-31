@@ -41,24 +41,18 @@ export const loadImageFromSessionStorage = (imgSrc: string): HTMLImageElement | 
 // setImage callback that also updates the image in sessionStorage
 export const updateImageInSessionStorage = (imgSrc: string, newImage: HTMLImageElement) => {
   try {
-    newImage.crossOrigin = 'anonymous'; // Ensure the image can be fetched with CORS
+    // Create a canvas to draw the image and then convert it to base64
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    if (ctx) {
+      canvas.width = newImage.width;
+      canvas.height = newImage.height;
 
-    newImage.onload = () => {
-      // Create a canvas to draw the image and then convert it to base64
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
-      if (ctx) {
-        canvas.width = newImage.width;
-        canvas.height = newImage.height;
+      ctx.drawImage(newImage, 0, 0);
+      const dataUrl = canvas.toDataURL('image/png'); // Convert canvas to base64 image
 
-        ctx.drawImage(newImage, 0, 0);
-        const dataUrl = canvas.toDataURL('image/png'); // Convert canvas to base64 image
-
-        sessionStorage.setItem(`GoblinsImage_${imgSrc}`, dataUrl); // Store in sessionStorage
-      }
-
-      newImage;
-    };
+      sessionStorage.setItem(`GoblinsImage_${imgSrc}`, dataUrl); // Store in sessionStorage
+    }
   } catch (error) {
     console.error('Error loading and storing image:', error);
   }
