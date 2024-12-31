@@ -8,6 +8,7 @@ const IndexScreen = lazy(() => import('~/components/screens/Index'));
 const TutorialScreen = lazy(() => import('~/components/screens/Tutorial'));
 const ProfileScreen = lazy(() => import('~/components/screens/Profile'));
 const LabelScreen = lazy(() => import('~/components/screens/Label'));
+const CropScreen = lazy(() => import('~/components/screens/Crop'));
 const Page404Screen = lazy(() => import('~/components/screens/404'));
 
 function Layout() {
@@ -52,6 +53,10 @@ const InnerRouter = () => {
         {
           path: '/profile',
           element: <ProfileScreen />,
+        },
+        {
+          path: '/crop',
+          element: <CropScreen />,
         },
         {
           path: '/label',
