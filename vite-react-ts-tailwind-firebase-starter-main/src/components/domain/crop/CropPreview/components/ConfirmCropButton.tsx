@@ -36,7 +36,6 @@ export const ConfirmCropButton = ({
           if (previewCanvasRef.current) {
             const croppedImage = await loadImage(getCroppedImage(image, previewCanvasRef.current, completedCrop));
             addChunk(croppedImage);
-            console.log('added croppedImage');
 
             // Get chunk data
             await uploadImageChunkMutation.mutate({
