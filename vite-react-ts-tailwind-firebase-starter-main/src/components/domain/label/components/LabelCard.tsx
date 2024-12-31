@@ -27,8 +27,8 @@ export const LabelCard = ({
   return (
     <div className="card md:card-side bg-base-100 shadow-xl border-2 ">
       <LabelCardBadge error={error} value={blurredInputValue} />
-      <figure className="border-r-2 p-4 w-1/4 overflow-auto">
-        <img className="w-min" src={crop.croppedImageSrc} />
+      <figure className="border-r-2 p-4 w-1/4 overflow-hidden flex items-center justify-center">
+        <img className="max-w-full max-h-full object-contain" src={crop.croppedImageSrc} />
       </figure>
       <div className="card-body w-3/4 flex flex-col gap-4">
         <LabelCardStep step={`${index}.1`} text="Input the symbols for the image on the left" />
@@ -42,7 +42,7 @@ export const LabelCard = ({
           </math-field>
         </div>
         <LabelCardStep step={`${index}.2`} text="Confirm the below input" />
-        <code className="p-4 rounded-xl bg-base-200 card-title break-words break-all max-w-full">
+        <code className="p-4 rounded-xl bg-base-200  break-words break-all max-w-full">
           {inputValue || 'Enter expression above.'}
         </code>
         <LabelCardStep step={`${index}.2`} text="Give a confidence rating" />

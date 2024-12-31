@@ -7,12 +7,12 @@ export const ProceedToLabellingButton = ({
 }: {
   whiteBoardId: string;
   croppedImages: Array<HTMLImageElement>;
-  selectedCrops: Array<GetSelectedCropsResult>;
+  selectedCrops?: Array<GetSelectedCropsResult>;
 }) => {
   // Here, move to label?id page with all chunks that are not labelled yet
   // Also, need to upload chunks to cloud before doing so
   // Display a nice little loading UI
-  const active = croppedImages?.length > 0 || selectedCrops?.length > 0;
+  const active = croppedImages?.length > 0 || (selectedCrops && selectedCrops.length > 0);
 
   return (
     <a href={`/label?id=${whiteBoardId}`}>

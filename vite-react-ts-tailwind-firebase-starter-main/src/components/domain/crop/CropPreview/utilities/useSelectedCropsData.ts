@@ -9,7 +9,13 @@ export const useSelectedCropsData = (
   isSelectedCropsLoading: boolean;
   isSelectedCropsError: boolean;
 } => {
-  const { data, isLoading, isError } = useGetDocsData('chunks', where('whiteBoardId', '==', cropId));
+  // Only return chunks that are not yet labelled
+  const { data, isLoading, isError } = useGetDocsData(
+    'chunks',
+    where('whiteBoardId', '==', cropId),
+    where('parsedInput', '==', ''),
+    where('parsedInputConfidence', '==', -1), // TODO: bad magic number / default, should be an enum somewhere
+  );
 
   if (data?.length > 0) {
     return {

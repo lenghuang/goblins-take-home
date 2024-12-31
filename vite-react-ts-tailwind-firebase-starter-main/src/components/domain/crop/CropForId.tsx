@@ -27,7 +27,7 @@ export function CropForId({ labelId }: { labelId: string }) {
     return <p> Loading... </p>;
   }
 
-  if (isCropError || isSelectedCropsError || !cropData || !selectedCrops) {
+  if (isCropError || isSelectedCropsError || !cropData) {
     return <p className="text-red-500"> Something went wrong. </p>;
   }
 
