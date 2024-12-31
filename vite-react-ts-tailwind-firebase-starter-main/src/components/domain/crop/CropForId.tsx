@@ -9,7 +9,7 @@ const useCropData = (
   const { data, isLoading, isError } = useGetDocData('jobs', cropId);
 
   if (!!data) {
-    if (data?.imageUrl && data?.cropState <= 2 && data?.cropState >= 0) {
+    if (data?.imageUrl) {
       return { cropData: data as CropData, isCropLoading: isLoading, isCropError: isError };
     } else {
       return { cropData: undefined, isCropLoading: isLoading, isCropError: isError };
@@ -29,10 +29,6 @@ export function CropForId({ labelId }: { labelId: string }) {
 
   if (isCropError || isSelectedCropsError || !cropData) {
     return <p className="text-red-500"> Something went wrong. </p>;
-  }
-
-  if (cropData.cropState != 0) {
-    return <p className="text-yellow-500"> This whiteboard is already done being labelled. </p>;
   }
 
   return (
