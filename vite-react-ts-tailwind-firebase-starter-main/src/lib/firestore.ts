@@ -126,10 +126,8 @@ export const useUpsertDocs = (collectionName: string) => {
 
         // Check if the document exists and upsert accordingly
         if (docSnap.exists()) {
-          console.log('exists');
           await setDoc(docRef, data, { merge: true });
         } else {
-          console.log('exists');
           await setDoc(docRef, data);
         }
 

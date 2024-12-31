@@ -32,7 +32,14 @@ export function LabelForId({ labelId }: { labelId: string }) {
     const noErrors = setErrorsGivenInputAndConfidence({ selectedCrops, inputs, confidences }, setErrors);
     if (noErrors) {
       setIsModalOpen(true);
+      console.log('try open modal');
     }
+  };
+
+  const clearState = () => {
+    setInputs({});
+    setBlurredInputs({});
+    setConfidences({});
   };
 
   return (
@@ -63,14 +70,7 @@ export function LabelForId({ labelId }: { labelId: string }) {
               Submit Your Labels
             </button>
             <div>or, carefully</div>
-            <button
-              onClick={() => {
-                setInputs({});
-                setBlurredInputs({});
-                setConfidences({});
-              }}
-              className="btn btn-warning btn-outline w-full"
-            >
+            <button onClick={clearState} className="btn btn-warning btn-outline w-full">
               Clear The Form
             </button>
           </div>
@@ -78,6 +78,7 @@ export function LabelForId({ labelId }: { labelId: string }) {
             labelFormInputs={{ selectedCrops, inputs, confidences }}
             isModalOpen={isModalOpen}
             setIsModalOpen={setIsModalOpen}
+            clearState={clearState}
           />
         </div>
       </div>

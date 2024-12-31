@@ -1,20 +1,31 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useUpsertDocs } from '~/lib/firestore';
 import { CombinedFormData } from './form-utils';
 
 export const SubmitLabelsButton = ({
   combinedData,
   editLabelsCallback,
+  clearStateCallback,
 }: {
   combinedData: Record<string, CombinedFormData>;
   editLabelsCallback: () => void;
+  clearStateCallback: () => void;
 }) => {
   const updateChunksMutation = useUpsertDocs('chunks');
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoadingInternal, setIsLoading] = useState<boolean>(false);
+  const navigate = useNavigate();
+
+  const isLoading = isLoadingInternal || updateChunksMutation.isPending;
+
+  if (updateChunksMutation.isSuccess) {
+    clearStateCallback();
+    navigate(`/crop?congratsCount=${Object.keys(combinedData).length}`); // Show a good job banner when they finish!
+  }
 
   return (
     <>
-      <button disabled={isLoading} onClick={editLabelsCallback} className={`btn ${isLoading ? 'loading' : ''}`}>
+      <button disabled={isLoading} onClick={editLabelsCallback} className="btn">
         Make More Changes
       </button>
       <button

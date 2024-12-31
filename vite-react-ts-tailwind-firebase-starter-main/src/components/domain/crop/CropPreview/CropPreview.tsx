@@ -18,7 +18,7 @@ import { ResetImageButton } from './components/ResetImageButton';
 interface CropPreviewProps {
   imgSrc: string;
   whiteBoardId: string;
-  selectedCrops: Array<GetSelectedCropsResult>;
+  selectedCrops?: Array<GetSelectedCropsResult>;
 }
 
 export default function CropPreview({ imgSrc, whiteBoardId, selectedCrops }: CropPreviewProps) {

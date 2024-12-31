@@ -44,6 +44,8 @@ export const ConfirmCropButton = ({
               croppedImageSrc: croppedImage.src,
               whiteBoardId: whiteBoardId,
               whiteBoardImageUrl: imgSrc,
+              parsedInput: '', // Default values
+              parsedInputConfidence: -1, // // Default values
             });
           }
         };

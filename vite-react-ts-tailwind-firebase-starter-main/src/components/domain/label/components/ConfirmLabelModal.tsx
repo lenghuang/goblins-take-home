@@ -7,10 +7,12 @@ export const ConfirmLabelModal = ({
   labelFormInputs,
   isModalOpen,
   setIsModalOpen,
+  clearState,
 }: {
   labelFormInputs: LabelFormInputs;
   isModalOpen: boolean;
   setIsModalOpen: (arg: boolean) => void;
+  clearState: () => void;
 }) => {
   const modalRef = useRef<HTMLDialogElement | null>(null);
   const combinedData = getCombinedLabelFormData(labelFormInputs);
@@ -42,7 +44,11 @@ export const ConfirmLabelModal = ({
           </table>
         </div>
         <div className="modal-action">
-          <SubmitLabelsButton editLabelsCallback={() => setIsModalOpen(false)} combinedData={combinedData} />
+          <SubmitLabelsButton
+            clearStateCallback={clearState}
+            editLabelsCallback={() => setIsModalOpen(false)}
+            combinedData={combinedData}
+          />
         </div>
       </div>
     </dialog>
