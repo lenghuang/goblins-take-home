@@ -42,7 +42,7 @@ export const ConfirmCropButton = ({
 
   return (
     <button onClick={onClick} className="btn w-full">
-      Confirm
+      Add Crop To Collection
     </button>
   );
 };

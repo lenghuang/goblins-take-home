@@ -9,7 +9,7 @@ export const PreviewImageOfCrop = forwardRef<HTMLCanvasElement, PreviewImageOfCr
   return (
     <>
       {!!completedCrop && (
-        <div className="border-2 shadow-xl overflow-hidden w-full flex justify-center">
+        <div className="rounded-xl border-2 shadow-xl overflow-hidden w-full flex justify-center">
           <canvas
             ref={ref}
             className="border-4 border-dotted "
