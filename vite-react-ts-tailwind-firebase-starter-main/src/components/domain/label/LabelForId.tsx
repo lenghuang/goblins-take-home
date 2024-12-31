@@ -7,11 +7,16 @@ interface LabelData {
 
 const useLabelData = (labelId: string): { data: LabelData | undefined; isLoading: boolean; isError: boolean } => {
   const { data, isLoading, isError } = useGetDocData('jobs', labelId);
-  if (data?.imageUrl && data?.labelState <= 2 && data?.labelState >= 0) {
-    return { data: data as LabelData, isLoading, isError };
+
+  if (!!data) {
+    if (data?.imageUrl && data?.labelState <= 2 && data?.labelState >= 0) {
+      return { data: data as LabelData, isLoading, isError };
+    } else {
+      return { data: undefined, isLoading, isError };
+    }
   }
 
-  return { data: undefined, isLoading: false, isError: true };
+  return { data, isLoading, isError };
 };
 
 export function LabelForId({ labelId }: { labelId: string }) {
@@ -23,6 +28,10 @@ export function LabelForId({ labelId }: { labelId: string }) {
 
   if (isError || !data) {
     return <p className="text-red-500"> Something went wrong. </p>;
+  }
+
+  if (data.labelState != 0) {
+    return <p className="text-yellow-500"> This whiteboard is already done being labelled. </p>;
   }
 
   return (
