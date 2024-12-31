@@ -1,5 +1,17 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { collection, deleteDoc, doc, getDoc, getDocs, query, QueryConstraint, setDoc } from 'firebase/firestore';
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  limit,
+  orderBy,
+  query,
+  QueryConstraint,
+  setDoc,
+  startAfter,
+} from 'firebase/firestore';
 import { useFirestore } from './firebase';
 
 export const useGetDocData = (collectionName: string, id: string) => {
@@ -147,4 +159,40 @@ export const useUpsertDocs = (collectionName: string) => {
       queryClient.invalidateQueries({ queryKey: ['useGetDocData', collectionName] });
     },
   });
+};
+
+export const useGetPaginatedDocs = (
+  collectionName: string,
+  orderByField: string,
+  pageNumber: number,
+  pageSize: number,
+  lastDoc: any = null,
+) => {
+  const firestore = useFirestore();
+
+  const fetchData = async () => {
+    let q = query(collection(firestore, collectionName), orderBy(orderByField), limit(pageSize));
+
+    if (lastDoc) {
+      q = query(q, startAfter(lastDoc)); // Use startAfter to paginate after the last document
+    }
+
+    const querySnapshot = await getDocs(q);
+    const documents: any[] = [];
+    let lastVisible = null;
+
+    querySnapshot.forEach((doc) => {
+      documents.push({ documentId: doc.id, ...doc.data() });
+      lastVisible = doc; // Set last visible document for pagination
+    });
+
+    return { documents, lastVisible };
+  };
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['useGetPaginatedDocs', collectionName, pageNumber, lastDoc],
+    queryFn: fetchData,
+  });
+
+  return { data, isLoading, isError };
 };

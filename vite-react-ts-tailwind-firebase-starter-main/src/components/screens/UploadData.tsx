@@ -1,5 +1,5 @@
 import Papa from 'papaparse';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useUpsertDoc } from '~/lib/firestore';
 
 interface CsvRow {
@@ -48,12 +48,12 @@ export const UploadData: React.FC = () => {
           for (const row of parsedData) {
             uploadCsvRowMutation.mutate({
               documentId: row.id,
+              whiteBoardId: row.id, // for querying
               imageUrl: row.image_url,
             });
           }
 
           setIsUploading(false);
-          alert('CSV data uploaded successfully!');
         },
         header: true, // Assumes the first row contains headers
         skipEmptyLines: true,
@@ -63,6 +63,11 @@ export const UploadData: React.FC = () => {
       setIsUploading(false);
     }
   };
+
+  useEffect(() => {
+    if (!isUploading && !uploadCsvRowMutation.isPending && uploadCsvRowMutation.isSuccess)
+      alert('CSV data uploaded successfully!');
+  }, [alert, isUploading, uploadCsvRowMutation]);
 
   return (
     <div className="min-h-full p-8">
