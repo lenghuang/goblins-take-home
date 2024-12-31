@@ -32,7 +32,6 @@ export function LabelForId({ labelId }: { labelId: string }) {
     const noErrors = setErrorsGivenInputAndConfidence({ selectedCrops, inputs, confidences }, setErrors);
     if (noErrors) {
       setIsModalOpen(true);
-      console.log('try open modal');
     }
   };
 
