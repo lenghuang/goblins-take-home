@@ -85,6 +85,8 @@ I'm now imagining a flow where you select all your boxes, then go through and cl
 
 I decided to follow the example of https://github.com/sekoyo/react-image-crop?tab=readme-ov-file#how-can-i-generate-a-crop-preview-in-the-browser. It seemed decently light-weight, and I didn't think I needed the fancy features of a full-fledged image editor. After some copy-paste and some debugging, we end up with the following:
 
-| Barely Working                         | Looks Pretty                           |
+| Barely Working                         | A Bit Better                           |
 | -------------------------------------- | -------------------------------------- |
-| ![ReactCropV0](images/ReactCropV0.png) | ![ReactCropV0](images/ReactCropV0.png) |
+| ![ReactCropV0](images/ReactCropV0.png) | ![ReactCropV1](images/ReactCropV1.png) |
+
+Despite what I said earlier, I don't think I'm going to account for rotation and scaling. The coordinate math became a bit of a headache, and I'm sure I could tackle it with a clear mind, but I decided that it was more important to get the project functioning end to end than to dwell on that.
