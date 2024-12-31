@@ -24,7 +24,7 @@ export const ConfirmLabelModal = ({
 
   return (
     <dialog ref={modalRef} className="modal">
-      <div className="modal-box w-11/12 max-w-5xl">
+      <div className="modal-box max-w-200 w-screen">
         <h3 className="font-bold text-lg">Confirm Your Label Data</h3>
         <div className="overflow-x-auto">
           <table className="table ">
@@ -61,12 +61,14 @@ const TableBody = ({ combinedData }: { combinedData: Record<string, CombinedForm
         <tr key={cropId}>
           <th>{index + 1}</th>
           <td>
-            <figure className="flex justify-center p-1 w-full overflow-auto">
-              <img src={croppedImageSrc} alt={`Image for ${cropId}`} className="w-min h-min object-contain rounded" />
+            <figure className="flex justify-center p-1 min-w-40 overflow-auto">
+              <img src={croppedImageSrc} alt={`Image for ${cropId}`} className="h-min object-contain rounded" />
             </figure>
           </td>
           <td>
-            <code className="rounded-xl bg-base-200 p-2">{parsedInput}</code>
+            <div className="rounded-xl bg-base-200 p-2 min-w-40 break-all">
+              <code>{parsedInput}</code>
+            </div>
           </td>
           <td>
             <FiveStarRatingDisplay value={parsedInputConfidence} />
