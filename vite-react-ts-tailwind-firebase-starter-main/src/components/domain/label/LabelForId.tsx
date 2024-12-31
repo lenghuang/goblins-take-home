@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useDeleteDoc } from '~/lib/firestore';
 import { usePersistentState } from '~/lib/sessionstorage';
 import { useSelectedCropsData } from '../crop/CropPreview/utilities/useSelectedCropsData';
 import { ConfirmLabelModal } from './components/ConfirmLabelModal';
@@ -18,6 +19,8 @@ export function LabelForId({ labelId }: { labelId: string }) {
   );
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+  const deleteJobMutation = useDeleteDoc('jobs');
 
   if (isSelectedCropsLoading) {
     return <p> Loading... </p>;
@@ -50,6 +53,14 @@ export function LabelForId({ labelId }: { labelId: string }) {
     setInputs({});
     setBlurredInputs({});
     setConfidences({});
+  };
+
+  const clearStateWithDelete = () => {
+    clearState();
+    // Here, for the sake of keeping my database usage low, we delete once we submit our labels.
+    // In the real world, this would be easily abused (make one small crop then submit), and
+    // can also be a compliance risk, if we need tracking on who did what.
+    deleteJobMutation.mutate(labelId);
   };
 
   return (
@@ -88,7 +99,7 @@ export function LabelForId({ labelId }: { labelId: string }) {
             labelFormInputs={{ selectedCrops, inputs, confidences }}
             isModalOpen={isModalOpen}
             setIsModalOpen={setIsModalOpen}
-            clearState={clearState}
+            clearState={clearStateWithDelete}
           />
         </div>
       </div>

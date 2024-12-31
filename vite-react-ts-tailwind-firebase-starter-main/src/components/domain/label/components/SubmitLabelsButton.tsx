@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUpsertDocs } from '~/lib/firestore';
 import { CombinedFormData } from './form-utils';
@@ -17,18 +17,18 @@ export const SubmitLabelsButton = ({
   const navigate = useNavigate();
 
   const isLoading = isLoadingInternal || updateChunksMutation.isPending;
+  const combinedDataCount = useMemo(() => Object.keys(combinedData).length, [combinedData]);
 
   useEffect(() => {
-    // Check for successful mutation, then clear state and navigate
     if (!isLoading && updateChunksMutation.isSuccess) {
       clearStateCallback();
-      navigate(`/crop?congratsCount=${Object.keys(combinedData).length}`); // Show a good job banner when they finish!
+      navigate(`/crop?congratsCount=${combinedDataCount}`);
     }
-  }, [updateChunksMutation.isSuccess, combinedData, clearStateCallback, navigate]);
+  }, [updateChunksMutation.isSuccess, combinedDataCount]);
 
   const handleSubmit = () => {
     setIsLoading(true);
-    // Rename "cropId" to "documentId"
+
     const newData = Object.values(combinedData).map((x: CombinedFormData) => ({
       documentId: x.cropId,
       croppedImageSrc: x.croppedImageSrc,
@@ -38,8 +38,11 @@ export const SubmitLabelsButton = ({
       uploadedBy: x.uploadedBy,
     }));
 
-    updateChunksMutation.mutate(newData);
-    setIsLoading(false);
+    updateChunksMutation.mutate(newData, {
+      onSettled: () => {
+        setIsLoading(false);
+      },
+    });
   };
 
   return (
