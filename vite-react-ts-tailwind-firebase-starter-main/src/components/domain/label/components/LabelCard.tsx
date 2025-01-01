@@ -30,7 +30,7 @@ export const LabelCard = ({
       <figure className="border-r-2 p-4 w-1/4 overflow-hidden flex items-center justify-center">
         <img className="max-w-full max-h-full object-contain" src={crop.croppedImageSrc} />
       </figure>
-      <div className="card-body w-3/4 flex flex-col gap-4">
+      <div className="card-body w-3/4 flex flex-col gap-6">
         <LabelCardStep step={`${index}.1`} text="Input the symbols for the image on the left" />
         <div>
           <math-field
@@ -45,7 +45,7 @@ export const LabelCard = ({
         <code className="p-4 rounded-xl bg-base-200  break-words break-all max-w-full">
           {inputValue || 'Enter expression above.'}
         </code>
-        <LabelCardStep step={`${index}.2`} text="Give a confidence rating" />
+        <LabelCardStep step={`${index}.3`} text="Give a confidence rating" />
         <ConfidenceRating index={index} onConfidenceChange={onConfidenceChange} defaultValue={confidenceValue} />
         {error && <p className="text-error">{error}</p>}
       </div>
