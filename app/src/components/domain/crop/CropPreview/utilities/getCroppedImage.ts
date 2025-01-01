@@ -1,11 +1,7 @@
 import { PixelCrop } from 'react-image-crop';
 
-export function getCroppedImage(
-  image: HTMLImageElement,
-  previewCanvas: HTMLCanvasElement,
-  completedCrop: PixelCrop,
-): string {
-  if (!image || !previewCanvas || !completedCrop) {
+export function getCroppedImage(image: HTMLImageElement, completedCrop: PixelCrop): string {
+  if (!image || !completedCrop) {
     throw new Error('Crop canvas does not exist');
   }
 

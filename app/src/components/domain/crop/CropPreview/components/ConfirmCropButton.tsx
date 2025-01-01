@@ -9,8 +9,7 @@ import { setCroppedAreaToWhite } from '../utilities/setCroppedAreaToWhite';
 interface ConfirmCropButtonProps {
   imgRef: RefObject<HTMLImageElement>;
   imgSrc: string; // original image
-  previewCanvasRef: RefObject<HTMLCanvasElement>;
-  completedCrop: PixelCrop;
+  completedCrop?: PixelCrop;
   setImage: (newImage: HTMLImageElement) => void;
   addChunk: (newImage: HTMLImageElement) => void;
   whiteBoardId: string;
@@ -19,7 +18,6 @@ interface ConfirmCropButtonProps {
 export const ConfirmCropButton = ({
   imgRef,
   imgSrc,
-  previewCanvasRef,
   completedCrop,
   setImage,
   addChunk,
@@ -28,30 +26,29 @@ export const ConfirmCropButton = ({
   const uploadImageChunkMutation = useUpsertDoc('chunks', false);
   const userEmail = useUserEmail();
 
-  const onClick = async () => {
+  const onClick = async (completedCropArg: PixelCrop) => {
     if (imgRef.current) {
       const image = await loadImage(imgRef.current.src, imgRef.current.width, imgRef.current.height);
       try {
         const addCroppedImageToCollection = async () => {
-          if (previewCanvasRef.current) {
-            const croppedImage = await loadImage(getCroppedImage(image, previewCanvasRef.current, completedCrop));
-            addChunk(croppedImage);
+          // issue completed crop is getting confused since its on render as opposed to updating as necessary
+          const croppedImage = await loadImage(getCroppedImage(image, completedCropArg));
+          addChunk(croppedImage);
 
-            // Get chunk data
-            await uploadImageChunkMutation.mutate({
-              uploadedBy: userEmail,
-              uploadDate: new Date(),
-              croppedImageSrc: croppedImage.src,
-              whiteBoardId: whiteBoardId,
-              whiteBoardImageUrl: imgSrc,
-              parsedInput: '', // Default values
-              parsedInputConfidence: -1, // // Default values
-            });
-          }
+          // Get chunk data
+          await uploadImageChunkMutation.mutate({
+            uploadedBy: userEmail,
+            uploadDate: new Date(),
+            croppedImageSrc: croppedImage.src,
+            whiteBoardId: whiteBoardId,
+            whiteBoardImageUrl: imgSrc,
+            parsedInput: '', // Default values
+            parsedInputConfidence: -1, // // Default values
+          });
         };
 
         const whiteOutCroppedAreaInOriginalImage = async () => {
-          const croppedAreaRemovedImage = await loadImage(setCroppedAreaToWhite(image, completedCrop));
+          const croppedAreaRemovedImage = await loadImage(setCroppedAreaToWhite(image, completedCropArg));
           setImage(croppedAreaRemovedImage);
         };
 
@@ -64,7 +61,11 @@ export const ConfirmCropButton = ({
   };
 
   return (
-    <button onClick={onClick} className="btn w-full">
+    <button
+      disabled={!completedCrop || completedCrop.height <= 0 || completedCrop.width <= 0}
+      onClick={() => completedCrop && onClick(completedCrop)}
+      className="btn w-full"
+    >
       Add Crop To Collection
     </button>
   );
