@@ -25,9 +25,8 @@ export const CreateAccountForm: React.FC<CreateAccountFormProps> = ({ goToSignIn
       setLoading(true);
       const auth = await useAuth();
       await createUserWithEmailAndPassword(auth, email, password);
-      console.log('Create-account successful!');
     } catch (err: any) {
-      setError(err.message || 'An unexpected error occurred.');
+      setError('An unexpected error occurred.');
     } finally {
       setLoading(false);
     }

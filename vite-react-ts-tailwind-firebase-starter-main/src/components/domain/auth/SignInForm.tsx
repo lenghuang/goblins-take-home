@@ -25,9 +25,8 @@ export const SignInForm: React.FC<SignInFormProps> = ({ goToCreateAccountCallbac
       setLoading(true);
       const auth = await useAuth();
       await signInWithEmailAndPassword(auth, email, password);
-      console.log('Sign-in successful!');
     } catch (err: any) {
-      setError(err.message || 'An unexpected error occurred.');
+      setError('An unexpected error occurred.');
     } finally {
       setLoading(false);
     }
