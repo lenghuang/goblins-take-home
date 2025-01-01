@@ -61,7 +61,9 @@ const LabelCardBadge = ({ value, error }: { value: string; error: string | undef
 
 const LabelCardStep = ({ step, text }: { step: string; text: string }) => (
   <div className="flex flex-row gap-2 font-semibold">
-    <div className="flex items-center justify-center text-center rounded-full w-9 h-6 bg-primary ">{step}</div>
+    <div className="flex items-center justify-center text-center rounded-full w-9 h-6 text-white bg-primary ">
+      {step}
+    </div>
     <p>{text}</p>
   </div>
 );

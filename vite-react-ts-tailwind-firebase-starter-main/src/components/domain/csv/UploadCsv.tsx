@@ -92,7 +92,7 @@ export const UploadCsv: React.FC = () => {
         {csvFile && <span className="ml-4">{csvFile.name}</span>}
       </div>
       <div>
-        <button onClick={handleUpload} disabled={isUploading} className="btn btn-primary">
+        <button onClick={handleUpload} disabled={isUploading} className="btn btn-primary text-white">
           {isUploading ? 'Uploading...' : 'Upload CSV'}
         </button>
         {error && <p className="text-red-500">{error}</p>}

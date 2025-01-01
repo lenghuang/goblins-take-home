@@ -16,7 +16,7 @@ export const ProceedToLabellingButton = ({
 
   return (
     <a className="w-full" href={`/label?id=${whiteBoardId}`}>
-      <button disabled={!active} className={`btn btn-primary w-full ${active ? '' : 'disabled'}`}>
+      <button disabled={!active} className={`btn btn-primary text-white w-full ${active ? '' : 'disabled'}`}>
         Proceed To Labelling
       </button>
     </a>

@@ -4,13 +4,13 @@ import { usePaginatedLabelledCrops } from './usePaginatedLabelledCrops';
 
 const Buttons = ({ labelledCropsData = [], nextPage = () => {}, isLastPage = false, forceDisabled = false }) => (
   <div className="flex justify-end gap-4">
-    <button onClick={nextPage} className="btn btn-primary" disabled={forceDisabled || isLastPage}>
+    <button onClick={nextPage} className="btn" disabled={forceDisabled || isLastPage}>
       Load More
     </button>
     <button
       disabled={forceDisabled}
       onClick={() => downloadCSV(labelledCropsData, 'whiteBoardLabels.csv')}
-      className="btn btn-secondary"
+      className="btn btn-primary text-white"
     >
       Download {labelledCropsData.length} Rows As CSV
     </button>
