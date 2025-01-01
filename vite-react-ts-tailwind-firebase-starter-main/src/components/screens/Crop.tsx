@@ -32,7 +32,7 @@ function useIdFromUrl(): { cropId: string | null; congratsCount: number } {
 function Congrats({ congratsCount }: { congratsCount: number }) {
   return (
     congratsCount > 0 && (
-      <div role="alert" className="alert alert-success absolute bottom-8 right-8 w-min">
+      <div role="alert" className="alert bg-green-100 absolute top-8 right-8 w-min">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-6 w-6 shrink-0 stroke-current"

@@ -172,7 +172,12 @@ export const useGetPaginatedDocs = (
   const firestore = useFirestore();
 
   const fetchData = async () => {
-    let q = query(collection(firestore, collectionName), ...queryConstraints, orderBy(orderByField), limit(pageSize));
+    let q = query(
+      collection(firestore, collectionName),
+      ...queryConstraints,
+      orderBy(orderByField, 'desc'),
+      limit(pageSize),
+    );
 
     if (lastDoc) {
       q = query(q, ...queryConstraints, startAfter(lastDoc)); // Use startAfter to paginate after the last document

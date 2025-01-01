@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useGetPaginatedDocs } from '~/lib/firestore';
 
-const PAGE_SIZE = 5;
+const PAGE_SIZE = 10;
 
 export function usePaginatedLabelledCrops() {
   const [pageNumber, setPageNumber] = useState(0);
@@ -12,7 +12,7 @@ export function usePaginatedLabelledCrops() {
   // just doing it in memory for now, which is a bad practice typically.
   const { data, isLoading, isError } = useGetPaginatedDocs(
     'chunks',
-    'documentId',
+    'uploadDate',
     pageNumber,
     PAGE_SIZE,
     lastDocs[lastDocs.length - 1],
