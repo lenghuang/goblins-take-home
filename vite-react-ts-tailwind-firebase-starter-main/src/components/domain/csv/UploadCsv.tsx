@@ -9,6 +9,8 @@ interface CsvRow {
 
 export const UploadCsv: React.FC = () => {
   const [csvFile, setCsvFile] = useState<File | null>(null);
+  const [csvPreview, setCsvPreview] = useState<CsvRow[] | null>(null);
+  const [parsedDataLength, setParsedDataLength] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -19,6 +21,17 @@ export const UploadCsv: React.FC = () => {
     if (file) {
       setCsvFile(file);
       setError(null); // Clear previous errors
+
+      // Parse a preview of the CSV file
+      Papa.parse(file, {
+        complete: (result) => {
+          const parsedData: CsvRow[] = result.data as CsvRow[];
+          setCsvPreview(parsedData.slice(0, 5)); // Show only the first 5 rows
+          setParsedDataLength(parsedData.length);
+        },
+        header: true,
+        skipEmptyLines: true,
+      });
     }
   };
 
@@ -70,12 +83,47 @@ export const UploadCsv: React.FC = () => {
   }, [alert, isUploading, uploadCsvRowMutation]);
 
   return (
-    <div className="flex gap-4 justify-center my-8">
-      <input type="file" accept=".csv" onChange={handleFileChange} />
-      {error && <p className="text-red-500">{error}</p>}
-      <button onClick={handleUpload} disabled={isUploading} className="btn btn-primary">
-        {isUploading ? 'Uploading...' : 'Upload CSV'}
-      </button>
+    <div className="flex flex-col gap-4 justify-center items-center my-8">
+      <div>
+        <label htmlFor="csvInput" className="btn cursor-pointer">
+          Choose File
+        </label>
+        <input id="csvInput" type="file" accept=".csv" onChange={handleFileChange} className="hidden" />
+        {csvFile && <span className="ml-4">{csvFile.name}</span>}
+      </div>
+      <div>
+        <button onClick={handleUpload} disabled={isUploading} className="btn btn-primary">
+          {isUploading ? 'Uploading...' : 'Upload CSV'}
+        </button>
+        {error && <p className="text-red-500">{error}</p>}
+      </div>
+
+      {csvPreview && (
+        <div className="mt-4 flex flex-col items-center">
+          <p className="mb-4">Previewing the first few rows. Total {parsedDataLength} rows.</p>
+
+          <table className="table table-fixed w-4/5 text-sm">
+            <thead>
+              <tr>
+                <th className="w-1/4">ID</th>
+                <th className="w-3/4">Image URL</th>
+              </tr>
+            </thead>
+            <tbody>
+              {csvPreview.map((row, index) => (
+                <tr key={index}>
+                  <td>
+                    <p className="break-all line-clamp-3 overflow-hidden text-ellipsis">{row.id}</p>
+                  </td>
+                  <td>
+                    <p className="break-all line-clamp-3 overflow-hidden text-ellipsis">{row.image_url}</p>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 };
