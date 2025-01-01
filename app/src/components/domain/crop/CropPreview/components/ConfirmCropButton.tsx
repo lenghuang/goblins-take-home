@@ -31,7 +31,6 @@ export const ConfirmCropButton = ({
       const image = await loadImage(imgRef.current.src, imgRef.current.width, imgRef.current.height);
       try {
         const addCroppedImageToCollection = async () => {
-          // issue completed crop is getting confused since its on render as opposed to updating as necessary
           const croppedImage = await loadImage(getCroppedImage(image, completedCropArg));
           addChunk(croppedImage);
 
