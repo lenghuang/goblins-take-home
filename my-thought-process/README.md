@@ -1,6 +1,6 @@
-Writing this up as I work so you can see into my thinking style as well as so I can give credit to libraries and such where due.
-
 # Thought Process
+
+Writing this up as I work so you can see into my thinking style as well as so I can give credit to libraries and such where due.
 
 ## Research Phase
 
@@ -152,3 +152,5 @@ Some features that I would have liked to do that I didn't get to do were:
 - Better pagination UI
 - Better concurrency handling between people editing at the same time
 - Better data design choices (hard to aggregate data, query, etc)
+- Think more critically about what data is optimal for ML training
+- Use blob storage for images instead of document
