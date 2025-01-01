@@ -6,6 +6,7 @@ import { CreateAccountForm } from '../domain/auth/CreateAccountForm';
 import { SignInForm } from '../domain/auth/SignInForm';
 import { SignOutButton } from '../domain/auth/SignOutButton';
 import { StartLabellingButton } from '../domain/label/StartLabellingButton';
+import { Container } from '../shared/Container';
 
 function SignedInProfile({ user }: { user: User }) {
   return (
@@ -47,9 +48,9 @@ function Profile() {
   return (
     <>
       <Head title="Profile" />
-      <div className="min-h-full p-8">
+      <Container>
         {state.state == 'SIGNED_IN' ? <SignedInProfile user={state.currentUser} /> : <SignedOutProfile />}
-      </div>
+      </Container>
     </>
   );
 }

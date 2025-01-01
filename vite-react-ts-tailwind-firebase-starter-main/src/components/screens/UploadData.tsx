@@ -1,6 +1,7 @@
 import Papa from 'papaparse';
 import React, { useEffect, useState } from 'react';
 import { useUpsertDoc } from '~/lib/firestore';
+import { Container } from '../shared/Container';
 
 interface CsvRow {
   id: string;
@@ -70,7 +71,7 @@ export const UploadData: React.FC = () => {
   }, [alert, isUploading, uploadCsvRowMutation]);
 
   return (
-    <div className="min-h-full p-8">
+    <Container>
       <h1 className="text-3xl font-bold mb-2">Upload CSV to be Labelled</h1>
       <div className="flex gap-4 justify-center my-8">
         <input type="file" accept=".csv" onChange={handleFileChange} />
@@ -79,7 +80,7 @@ export const UploadData: React.FC = () => {
           {isUploading ? 'Uploading...' : 'Upload CSV'}
         </button>
       </div>
-    </div>
+    </Container>
   );
 };
 

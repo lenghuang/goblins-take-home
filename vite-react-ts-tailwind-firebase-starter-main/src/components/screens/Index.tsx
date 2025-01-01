@@ -1,6 +1,7 @@
 import { Head } from '~/components/shared/Head';
 import { useAuthState } from '../contexts/UserContext';
 import { StartLabellingButton } from '../domain/label/StartLabellingButton';
+import { Container } from '../shared/Container';
 
 function DashboardOptions() {
   const { state } = useAuthState();
@@ -33,13 +34,13 @@ function Index() {
   return (
     <>
       <Head title="Home" />
-      <div className="min-h-full p-8">
+      <Container>
         <h1 className="text-3xl font-bold mb-2">Home</h1>
         <p> Hello! What do you want to do today?</p>
         <div className="flex flex-col gap-4 p-8 text-center">
           <DashboardOptions />
         </div>
-      </div>
+      </Container>
     </>
   );
 }
