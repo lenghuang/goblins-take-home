@@ -1,38 +1,46 @@
-import { saveAs } from 'file-saver';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { downloadCSV } from '~/lib/csv';
 import { formatFirestoreTimestampAgo } from '~/lib/dates';
 import { useGetPaginatedDocs } from '~/lib/firestore';
 
-const PAGE_SIZE = 3;
+const PAGE_SIZE = 5;
 
 function usePaginatedLabelledCrops() {
-  const [pageSize, setPageSize] = useState(PAGE_SIZE);
+  const [pageNumber, setPageNumber] = useState(0);
   const [lastDocs, setLastDocs] = useState<any[]>([]);
+  const [allDocs, setAllDocs] = useState<any[]>([]);
 
   // I was unable to figure out composite indexes and querying quickly enough, so I am
   // just doing it in memory for now, which is a bad practice typically.
   const { data, isLoading, isError } = useGetPaginatedDocs(
     'chunks',
     'documentId',
-    1,
-    pageSize,
+    pageNumber,
+    PAGE_SIZE,
     lastDocs[lastDocs.length - 1],
     // orderBy('parsedInput'),
     // where('parsedInput', '!=', ''),
   );
 
-  const labelledCropsData = data?.documents || [];
+  const labelledCropsData = data?.documents?.filter((doc) => !!doc.parsedInput && !!doc.parsedInputConfidence) || [];
   const isLastPage = labelledCropsData.length < PAGE_SIZE || !data?.lastVisible;
+
+  useEffect(() => {
+    // Load in query data to internal state
+    if (!isLoading && labelledCropsData.length > 0) {
+      setAllDocs((prev) => [...prev, ...labelledCropsData]);
+    }
+  }, [isLoading, pageNumber]);
 
   const nextPage = () => {
     if (data?.lastVisible) {
       setLastDocs((prev) => [...prev, data.lastVisible]);
-      setPageSize((prev) => (prev += PAGE_SIZE));
+      setPageNumber((prev) => (prev += 1));
     }
   };
 
   return {
-    labelledCropsData,
+    labelledCropsData: allDocs,
     isLabelledCropsLoading: isLoading,
     isLabelledCropsError: isError,
     nextPage,
@@ -44,34 +52,21 @@ export default function LabelledCropsPage() {
   const { labelledCropsData, isLabelledCropsLoading, isLabelledCropsError, nextPage, isLastPage } =
     usePaginatedLabelledCrops();
 
-  const convertToCSV = (jsonList: any[]) => {
-    if (!jsonList || jsonList.length === 0) return '';
-
-    const headers = Object.keys(jsonList[0]);
-    const rows = jsonList.map((row) => headers.map((header) => `"${row[header] || ''}"`).join(','));
-
-    return [headers.join(','), ...rows].join('\n');
-  };
-
-  const downloadCSV = () => {
-    const csv = convertToCSV(labelledCropsData);
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    saveAs(blob, 'labelledWhiteboards.csv');
-  };
-
   if (isLabelledCropsLoading) return <div>Loading...</div>;
   if (isLabelledCropsError) return <div>Error loading labelled crops.</div>;
 
   return (
     <div>
-      <h2 className="text-2xl font-bold mb-6 text-center">Labelled Crops</h2>
+      <div className="p-8 flex flex-col gap-4">
+        <h2 className="text-2xl font-bold">Download Labelled Data</h2>
+        <p>View and confirm the data that you'd like to download below.</p>
+      </div>
       <div className="overflow-x-auto">
         <table className="table table-fixed min-w-full">
           <thead>
             <tr>
-              <th className="w-1/12">#</th>
               <th className="w-1/12">Document Id</th>
-              <th className="w-1/12">ImageURL</th>
+              <th className="w-2/12">ImageURL</th>
               <th className="w-1/12">Image</th>
               <th className="w-4/12">Math Input</th>
               <th className="w-1/12">Confidence</th>
@@ -84,7 +79,6 @@ export default function LabelledCropsPage() {
               const { documentId, croppedImageSrc, parsedInput, parsedInputConfidence, uploadedBy, uploadDate } = label;
               return (
                 <tr key={`table_row_${documentId}`}>
-                  <th>{index + 1}</th>
                   <td>
                     <div className="break-all line-clamp-3 overflow-hidden text-ellipsis">{documentId}</div>
                   </td>
@@ -123,7 +117,7 @@ export default function LabelledCropsPage() {
         <button onClick={nextPage} className="btn btn-primary" disabled={isLastPage}>
           Load More
         </button>
-        <button onClick={downloadCSV} className="btn btn-secondary" disabled={isLastPage}>
+        <button onClick={() => downloadCSV(labelledCropsData, 'whiteBoardLabels.csv')} className="btn btn-secondary">
           Download As CSV
         </button>
       </div>
