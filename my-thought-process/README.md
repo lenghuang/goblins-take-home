@@ -105,7 +105,7 @@ I have a few ideas for how to improve the cropping experience, like being able t
 
 I quickly whipped together that shows at once for all of the possible chunks associated with a whiteboard. While there are improvements that could be made with the UI, I felt that this was good enough for now and was something I could revisit in the future. The biggest slowdown I could see at this page would be unfamiliar math expressions, like `\cancel{}`, so I would want to add a few buttons that contractors could use as short cuts in the labelling process. This is something I'll do after I link the backend to everything. I think TailwindCSS has quite a nice example of docs that you can just search, so I would probably start with a cheat sheet that could be build out into its own set of docs in the future.
 
-![LabelConfirmButton](LabelConfirmButton.png)
+![LabelConfirmButton](LabelConfirmData.png)
 
 I was running into some issues with losing my data on refresh because of the HMR from vite, so I quickly added some session storage capabilities. This will also help contractors who may refresh their screen for whatever reason (slow connection, etc). This was needed for me to begin working on the next step, which is persisting that data to the database.
 
@@ -129,4 +129,26 @@ Here, I am loading the full whiteboard. Ideally, I would load these async as wel
 
 ## Downloading the Data
 
-Now with a way to upload data, as well as modify it, we needed a way to donwload all this data as well. Here, I wanted to demonstrate another form of pagination, and do it in a more "infinitely loading" kind of way. One thing I didn't do well with these queries is they're not cached super well, so there may be some full screen refreshes where there doesn't need to be.
+Now with a way to upload data, as well as modify it, we needed a way to donwload all this data as well. Here, I wanted to demonstrate another form of pagination, and do it in a more "infinitely loading" kind of way. One thing I didn't do well with these queries is they're not cached super well, so there may be some full screen refreshes where there doesn't need to be. It took a while to get the pagination right, but it ended up being worth it I think for something like this. Ideally, this would be some automated job to our ML model or something like that. Or at least, we'd allow the user to select which rows they want to download and also delete some. But this can be done in the csv and in post-processing so it's not worth it for now.
+
+## Reflections
+
+Generally, I'm quite happy with how this turned out. There's lots of things that could have been done better and I'd say the frontend is probably a little stronger than the backend (though there's not much of a real backend). But I wrote this up to demonstrate that I was making certain tradeoffs intentionally.
+
+Some things that I think I did well:
+
+- Leveraging session storage
+- Unique "whiting-out" cropping experience
+- Overall UI Consistency
+- General simplicity
+- Form submission error handling
+
+Some features that I would have liked to do that I didn't get to do were:
+
+- Rotate and scale the image for cropping
+- Leaderboard for contractors
+- Personal statistics overview + badges
+- Delete + edit view in the download labels page
+- Better pagination UI
+- Better concurrency handling between people editing at the same time
+- Better data design choices (hard to aggregate data, query, etc)
