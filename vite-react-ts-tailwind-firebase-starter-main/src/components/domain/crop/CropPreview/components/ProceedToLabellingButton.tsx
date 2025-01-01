@@ -15,7 +15,7 @@ export const ProceedToLabellingButton = ({
   const active = croppedImages?.length > 0 || (selectedCrops && selectedCrops.length > 0);
 
   return (
-    <a href={`/label?id=${whiteBoardId}`}>
+    <a className="w-full" href={`/label?id=${whiteBoardId}`}>
       <button disabled={!active} className={`btn btn-primary w-full ${active ? '' : 'disabled'}`}>
         Proceed To Labelling
       </button>
