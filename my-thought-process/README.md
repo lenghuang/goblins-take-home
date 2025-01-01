@@ -108,3 +108,25 @@ I quickly whipped together that shows at once for all of the possible chunks ass
 ![LabelConfirmButton](LabelConfirmButton.png)
 
 I was running into some issues with losing my data on refresh because of the HMR from vite, so I quickly added some session storage capabilities. This will also help contractors who may refresh their screen for whatever reason (slow connection, etc). This was needed for me to begin working on the next step, which is persisting that data to the database.
+
+Finally, I needed to implement the ability to store this data. Ideally, I would have put this into a blob storage source and then store the URL in my database. Right now, I am storing the base64 encoding of the entire image. This is really bad and doesn't scale well, but I decided to do this because I didn't want to put my credit card down for the pricing plan that would've given me access to the storage, so this is what I did for now.
+
+![CloudStorage](CloudStorage.png)
+
+As I'm working on this, I've also come to realize that querying my data is not really efficient, and that it's probably not smart to delete whiteboards after you're done working with them. However, I wanted to save data and wanted to get this done quickly. If I had more time, I would need to think critically about how to aggregate this data efficiently for display (leaderboards, etc). There's a place of code where I query all data and then filter in memory in Javascript, which is not ideal but sufficient given the scale.
+
+One thing I also realized is that it's pretty difficult to deal with multi-line math with this keyboard. Also, using LaTeX has a bit of a learning curve, so it may not be the most intuitive for every contractor. If I had more time, I would implement shortcuts, or have a view of commonly used math expressions to make it easier for them to label.
+
+## Scaling to Multiple Whiteboards
+
+At this point I was very in the zone and started forgetting to document some images as I went haha. But after I had the core functionality of labelling data done. Now, I needed to scale beyond just one whiteboard. First, I implemented a form to upload the original CSV and get all the data into Firestore. This was fairly straightforward fortunately.
+
+With the data, I wanted a user to be able to pick a whiteboard to start working on. Here, I used pagination since it's possible there's lots of white boards to annotate. In an ideal world, it could be cool to do this in a Duolingo style, where images are automatically chosen for the contractor. This could also help avoid duplicated effort and concurrency issues. I decided it wasn't worth worrrying about that for now though since there won't be that many people using this. I opted for a gallery view with skeletons to allow users to go through and pick an image for them to load.
+
+![WhiteBoardGallery](WhiteBoardGallery.png)
+
+Here, I am loading the full whiteboard. Ideally, I would load these async as well and have some kind of CDN thing where the images would be optimized for a thumbnail view. Especialy cause these images could be pretty big, it would make the page pretty slow. After this was done, I moved some stuff around, got some edge cases handled, and considered this part done.
+
+## Downloading the Data
+
+Now with a way to upload data, as well as modify it, we needed a way to donwload all this data as well. Here, I wanted to demonstrate another form of pagination, and do it in a more "infinitely loading" kind of way. One thing I didn't do well with these queries is they're not cached super well, so there may be some full screen refreshes where there doesn't need to be.
