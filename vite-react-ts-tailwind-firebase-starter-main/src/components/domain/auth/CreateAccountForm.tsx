@@ -73,7 +73,7 @@ export const CreateAccountForm: React.FC<CreateAccountFormProps> = ({ goToSignIn
       >
         {loading ? 'Creating Account...' : 'Create Account'}
       </button>
-      <button onClick={goToSignInCallback} className={`btn btn-outline w-full`} disabled={loading}>
+      <button onClick={goToSignInCallback} className={`btn w-full`} disabled={loading}>
         {'Sign in instead'}
       </button>
     </form>
