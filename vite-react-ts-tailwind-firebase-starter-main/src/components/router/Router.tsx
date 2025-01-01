@@ -5,7 +5,6 @@ import { AuthNavButton } from '../domain/auth/AuthNavButton';
 const Loading = () => <p className="p-4 w-full h-full text-center">Loading...</p>;
 
 const IndexScreen = lazy(() => import('~/components/screens/Index'));
-const TutorialScreen = lazy(() => import('~/components/screens/Tutorial'));
 const ProfileScreen = lazy(() => import('~/components/screens/Profile'));
 const LabelScreen = lazy(() => import('~/components/screens/Label'));
 const CropScreen = lazy(() => import('~/components/screens/Crop'));
@@ -47,10 +46,6 @@ const InnerRouter = () => {
         {
           index: true,
           element: <IndexScreen />,
-        },
-        {
-          path: '/tutorial',
-          element: <TutorialScreen />,
         },
         {
           path: '/profile',

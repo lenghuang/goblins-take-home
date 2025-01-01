@@ -3,6 +3,7 @@ import { Head } from '~/components/shared/Head';
 import { useOnlyAllowSignedInUsers } from '../contexts/UserContext';
 import { CropForId } from '../domain/crop/CropForId';
 import { WhiteBoardPage } from '../domain/crop/WhiteBoardGallery';
+import { Container } from '../shared/Container';
 
 function useIdFromUrl(): { cropId: string | null; congratsCount: number } {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -58,11 +59,11 @@ function Crop() {
   return (
     <>
       <Head title="Crop" />
-      <div className="min-h-full p-8">
+      <Container>
         <h1 className="text-3xl font-bold mb-2">Crop the Whiteboard</h1>
         {cropId ? <CropForId labelId={cropId} /> : <WhiteBoardPage />}
         <Congrats congratsCount={congratsCount} />
-      </div>
+      </Container>
     </>
   );
 }

@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useGetPaginatedDocs } from '~/lib/firestore';
 
+const PAGE_SIZE = 8;
+
 function usePaginatedWhiteBoards() {
   const [pageNumber, setPageNumber] = useState(0);
   const [lastDocs, setLastDocs] = useState<any[]>([]); // Stack of lastDocs
@@ -9,12 +11,12 @@ function usePaginatedWhiteBoards() {
     'jobs',
     'whiteBoardId',
     pageNumber,
-    6,
+    PAGE_SIZE,
     lastDocs[lastDocs.length - 1],
   );
 
   const whiteBoardData = data?.documents || [];
-  const isLastPage = whiteBoardData.length < 6 || !data?.lastVisible;
+  const isLastPage = whiteBoardData.length < PAGE_SIZE || !data?.lastVisible;
 
   // Go to the previous page
   const prevPage = () => {
@@ -50,7 +52,7 @@ export const WhiteBoardPage = () => {
     return (
       <div>
         <div className="mt-8 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {Array.from({ length: 6 }).map((_, index) => (
+          {Array.from({ length: PAGE_SIZE }).map((_, index) => (
             <div key={index} className="border card card-compact w-full bg-base-100 shadow-xl animate-pulse">
               <figure className="border-b">
                 <div className="w-full h-48 bg-gray-300"></div>

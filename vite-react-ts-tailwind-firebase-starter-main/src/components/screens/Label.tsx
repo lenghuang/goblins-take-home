@@ -2,6 +2,7 @@ import { useSearchParams } from 'react-router-dom';
 import { Head } from '~/components/shared/Head';
 import { useOnlyAllowSignedInUsers } from '../contexts/UserContext';
 import { LabelForId } from '../domain/label/LabelForId';
+import { Container } from '../shared/Container';
 
 function useIdFromUrl(): { labelId: string | null } {
   const [searchParams] = useSearchParams();
@@ -21,7 +22,7 @@ function Label() {
   return (
     <>
       <Head title="Label" />
-      <div className="min-h-full p-8">
+      <Container>
         <h1 className="text-3xl font-bold mb-2">Label the Whiteboard</h1>
         {labelId ? (
           <LabelForId labelId={labelId} />
@@ -33,7 +34,7 @@ function Label() {
             </a>
           </div>
         )}
-      </div>
+      </Container>
     </>
   );
 }
