@@ -1,86 +1,21 @@
-import Papa from 'papaparse';
-import React, { useEffect, useState } from 'react';
-import { useUpsertDoc } from '~/lib/firestore';
+import React from 'react';
+import { UploadCsv } from '../domain/csv/UploadCsv';
 import { Container } from '../shared/Container';
-
-interface CsvRow {
-  id: string;
-  image_url: string;
-}
+import { Head } from '../shared/Head';
 
 export const UploadData: React.FC = () => {
-  const [csvFile, setCsvFile] = useState<File | null>(null);
-  const [isUploading, setIsUploading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const uploadCsvRowMutation = useUpsertDoc('jobs', true);
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setCsvFile(file);
-      setError(null); // Clear previous errors
-    }
-  };
-
-  const handleUpload = async () => {
-    if (!csvFile) {
-      setError('Please select a CSV file first.');
-      return;
-    }
-
-    setIsUploading(true);
-    setError(null);
-
-    try {
-      // Parse CSV file using PapaParse
-      Papa.parse(csvFile, {
-        complete: async (result) => {
-          const parsedData: CsvRow[] = result.data as CsvRow[];
-
-          // Validate parsed data
-          if (!parsedData.every((row) => row.id && row.image_url)) {
-            setError('CSV is missing required fields (id, image_url).');
-            setIsUploading(false);
-            return;
-          }
-
-          // Upload each row to Firestore
-          for (const row of parsedData) {
-            uploadCsvRowMutation.mutate({
-              documentId: row.id,
-              whiteBoardId: row.id, // for querying
-              imageUrl: row.image_url,
-            });
-          }
-
-          setIsUploading(false);
-        },
-        header: true, // Assumes the first row contains headers
-        skipEmptyLines: true,
-      });
-    } catch (error) {
-      setError('Error uploading CSV data.');
-      setIsUploading(false);
-    }
-  };
-
-  useEffect(() => {
-    if (!isUploading && !uploadCsvRowMutation.isPending && uploadCsvRowMutation.isSuccess)
-      alert('CSV data uploaded successfully!');
-  }, [alert, isUploading, uploadCsvRowMutation]);
-
   return (
-    <Container>
-      <h1 className="text-3xl font-bold mb-2">Upload CSV to be Labelled</h1>
-      <div className="flex gap-4 justify-center my-8">
-        <input type="file" accept=".csv" onChange={handleFileChange} />
-        {error && <p className="text-red-500">{error}</p>}
-        <button onClick={handleUpload} disabled={isUploading} className="btn btn-primary">
-          {isUploading ? 'Uploading...' : 'Upload CSV'}
-        </button>
-      </div>
-    </Container>
+    <>
+      <Head title="Upload" />
+      <Container>
+        <h1 className="text-3xl font-bold mb-2">Upload CSV</h1>
+        <p>
+          Upload a CSV file that has the data you want labelled. Note that the format of your CSV must be:{' '}
+          <code className="bg-base-200 rounded-xl px-2 py-1">id,image_url</code>
+        </p>
+        <UploadCsv />
+      </Container>
+    </>
   );
 };
 
