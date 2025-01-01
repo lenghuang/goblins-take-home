@@ -22,7 +22,7 @@ function DashboardOptions() {
   } else if (state.state == 'SIGNED_OUT') {
     return (
       <a href="/profile">
-        <button className="btn btn-primary w-full">Start By Signing In</button>
+        <button className="btn btn-primary text-white w-full">Start By Signing In</button>
       </a>
     );
   } else {

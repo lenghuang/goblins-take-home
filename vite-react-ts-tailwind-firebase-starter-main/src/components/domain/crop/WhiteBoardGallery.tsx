@@ -67,7 +67,7 @@ export const WhiteBoardPage = () => {
           <button className="btn" disabled={true}>
             Previous
           </button>
-          <button className="btn btn-primary" disabled={true}>
+          <button className="btn btn-primary text-white" disabled={true}>
             Next
           </button>
         </div>
@@ -101,7 +101,7 @@ export const WhiteBoardPage = () => {
         <button onClick={prevPage} className="btn" disabled={isWhiteBoardLoading || pageNumber === 0}>
           Previous
         </button>
-        <button onClick={nextPage} className="btn btn-primary" disabled={isWhiteBoardLoading || isLastPage}>
+        <button onClick={nextPage} className="btn btn-primary text-white" disabled={isWhiteBoardLoading || isLastPage}>
           Next
         </button>
       </div>

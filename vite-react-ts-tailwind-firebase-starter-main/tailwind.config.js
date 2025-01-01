@@ -24,7 +24,13 @@ module.exports = {
   plugins: [require('daisyui')],
   daisyui: {
     themes: [
-      'emerald', // https://daisyui.com/docs/themes/
+      // https://daisyui.com/docs/themes/
+      {
+        light: {
+          ...require('daisyui/src/theming/themes')['emerald'],
+          primary: '#689C47',
+        },
+      },
     ],
   },
 };

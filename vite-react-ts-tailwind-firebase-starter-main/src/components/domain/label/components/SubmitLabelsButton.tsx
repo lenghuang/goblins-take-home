@@ -50,7 +50,11 @@ export const SubmitLabelsButton = ({
       <button disabled={isLoading} onClick={editLabelsCallback} className="btn">
         Make More Changes
       </button>
-      <button disabled={isLoading} onClick={handleSubmit} className={`btn btn-primary ${isLoading ? 'loading' : ''}`}>
+      <button
+        disabled={isLoading}
+        onClick={handleSubmit}
+        className={`btn btn-primary text-white ${isLoading ? 'loading' : ''}`}
+      >
         {isLoading ? 'Loading...' : 'Submit Labels'}
       </button>
     </>

@@ -87,7 +87,7 @@ export function LabelForId({ labelId }: { labelId: string }) {
             </div>
           ))}
           <div className="flex flex-col gap-4 justify-center text-center items-center">
-            <button onClick={onClick} className="btn btn-primary w-full">
+            <button onClick={onClick} className="btn btn-primary text-white w-full">
               Submit Your Labels
             </button>
             <div>or</div>

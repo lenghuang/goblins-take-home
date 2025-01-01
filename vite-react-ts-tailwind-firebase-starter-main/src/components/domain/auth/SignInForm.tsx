@@ -66,7 +66,11 @@ export const SignInForm: React.FC<SignInFormProps> = ({ goToCreateAccountCallbac
           required
         />
       </div>
-      <button type="submit" className={`btn btn-primary w-full ${loading ? 'loading' : ''}`} disabled={loading}>
+      <button
+        type="submit"
+        className={`btn btn-primary text-white w-full ${loading ? 'loading' : ''}`}
+        disabled={loading}
+      >
         {loading ? 'Signing In...' : 'Sign In'}
       </button>
       <button onClick={goToCreateAccountCallback} className={`btn btn-outline w-full`} disabled={loading}>

@@ -61,6 +61,7 @@ function Crop() {
       <Head title="Crop" />
       <Container>
         <h1 className="text-3xl font-bold mb-2">Crop the Whiteboard</h1>
+        {!cropId && <p> Choose one of these white boards to get started.</p>}
         {cropId ? <CropForId labelId={cropId} /> : <WhiteBoardPage />}
         <Congrats congratsCount={congratsCount} />
       </Container>

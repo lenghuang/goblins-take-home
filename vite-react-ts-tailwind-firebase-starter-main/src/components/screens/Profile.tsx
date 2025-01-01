@@ -11,13 +11,22 @@ import { Container } from '../shared/Container';
 function SignedInProfile({ user }: { user: User }) {
   return (
     <>
-      <h1 className="text-3xl font-bold mb-2">Profile</h1>
-      <p> Welcome back! Here are your details</p>
-      <hr className="m-8" />
-      <p> Email: {user.email} </p>
-      <p> User Since: {user.metadata.creationTime} </p>
-      <p> Last Sign In: {user.metadata.lastSignInTime} </p>
-      <hr className="m-8" />
+      <h1 className="text-3xl font-bold text-gray-800 mb-4 ">Your Profile</h1>
+      <p className="text-gray-600 mb-6">Welcome back! Here are your account details.</p>
+      <div className="border-t border-gray-200 pt-4">
+        <div className="mb-3">
+          <span className="font-semibold text-gray-800">Email:</span> {user.email}
+        </div>
+        <div className="mb-3">
+          <span className="font-semibold text-gray-800">User Since:</span>{' '}
+          {user.metadata.creationTime && new Date(user.metadata.creationTime).toLocaleDateString()}
+        </div>
+        <div>
+          <span className="font-semibold text-gray-800">Last Sign In:</span>{' '}
+          {user.metadata.lastSignInTime && new Date(user.metadata.lastSignInTime).toLocaleString()}
+        </div>
+      </div>
+      <hr className="my-6 border-gray-300" />
       <div className="flex flex-col gap-4">
         <StartLabellingButton />
         <SignOutButton />
