@@ -11,7 +11,6 @@ import { GetSelectedCropsResult } from '~/types/chunkData';
 import { ConfirmCropButton } from './components/ConfirmCropButton';
 import { CroppedImages } from './components/CroppedImages';
 import { LabelStep } from './components/LabelStep';
-import { PreviewImageOfCrop } from './components/PreviewImageofCrop';
 import { ProceedToLabellingButton } from './components/ProceedToLabellingButton';
 import { ResetImageButton } from './components/ResetImageButton';
 
@@ -70,30 +69,19 @@ export default function CropPreview({ imgSrc, whiteBoardId, selectedCrops }: Cro
       >
         <img ref={imgRef} alt="Crop me" src={image?.src ?? imgSrc} />
       </ReactCrop>
+      <ConfirmCropButton
+        imgRef={imgRef}
+        imgSrc={imgSrc}
+        completedCrop={completedCrop}
+        setImage={(callbackImage) => {
+          setImage(callbackImage);
+          updateImageInSessionStorage(imgSrc, callbackImage);
+        }}
+        addChunk={(callbackImage) => setCroppedImages((prev) => prev.concat(callbackImage))}
+        whiteBoardId={whiteBoardId}
+      />
       <LabelStep
         step={2}
-        text="Confirm your crop"
-        caption="After cropping, your selection will be erased from the above image. If you feel like you've messed up, you can refresh the page and delete your selections, as well as reset the image."
-      />
-      {completedCrop && completedCrop.height >= 0 && completedCrop.width >= 0 && (
-        <>
-          <PreviewImageOfCrop completedCrop={completedCrop} ref={previewCanvasRef} />{' '}
-          <ConfirmCropButton
-            imgRef={imgRef}
-            imgSrc={imgSrc}
-            previewCanvasRef={previewCanvasRef}
-            completedCrop={completedCrop}
-            setImage={(callbackImage) => {
-              setImage(callbackImage);
-              updateImageInSessionStorage(imgSrc, callbackImage);
-            }}
-            addChunk={(callbackImage) => setCroppedImages((prev) => prev.concat(callbackImage))}
-            whiteBoardId={whiteBoardId}
-          />
-        </>
-      )}
-      <LabelStep
-        step={3}
         text="Confirm your selections"
         caption="Final checks. If you need to redo something on Step 1, press click the Reset Image button to restore the original image. Otherwise proceed to labelling to move on to the next step."
       />
