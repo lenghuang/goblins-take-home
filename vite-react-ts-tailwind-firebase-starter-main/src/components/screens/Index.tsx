@@ -12,10 +12,10 @@ function DashboardOptions() {
         <StartLabellingButton />
         or consider...
         <a href="/upload">
-          <button className="btn btn-outline btn-primary w-full">Upload More Data</button>
+          <button className="btn w-full">Upload More Data</button>
         </a>
         <a href="/download">
-          <button className="btn btn-outline btn-primary w-full">Download Labeled Data</button>
+          <button className="btn w-full">Download Labeled Data</button>
         </a>
       </>
     );

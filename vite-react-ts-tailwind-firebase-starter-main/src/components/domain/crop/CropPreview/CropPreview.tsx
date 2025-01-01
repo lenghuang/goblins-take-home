@@ -73,7 +73,7 @@ export default function CropPreview({ imgSrc, whiteBoardId, selectedCrops }: Cro
       <LabelStep
         step={2}
         text="Confirm your crop"
-        caption="Does this look right? If so, great! Confirm and it will show up in the choices below. If not, no worries! You'll be able to delete this if you refresh the page."
+        caption="After cropping, your selection will be erased from the above image. If you feel like you've messed up, you can refresh the page and delete your selections, as well as reset the image."
       />
       {completedCrop && completedCrop.height >= 0 && completedCrop.width >= 0 && (
         <>
@@ -98,12 +98,13 @@ export default function CropPreview({ imgSrc, whiteBoardId, selectedCrops }: Cro
         caption="Final checks. If you need to redo something on Step 1, press click the Reset Image button to restore the original image. Otherwise proceed to labelling to move on to the next step."
       />
       <CroppedImages selectedCrops={selectedCrops} croppedImages={croppedImages} />
-      <div className="flex gap-2 flex-col">
+      <div className="flex gap-2 flex-col items-center justify-center">
         <ProceedToLabellingButton
           whiteBoardId={whiteBoardId}
           selectedCrops={selectedCrops}
           croppedImages={croppedImages}
         />
+        or
         <ResetImageButton imgSrc={imgSrc} />
       </div>
     </div>

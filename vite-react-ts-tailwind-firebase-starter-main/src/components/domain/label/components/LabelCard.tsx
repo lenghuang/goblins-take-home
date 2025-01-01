@@ -78,20 +78,14 @@ const ConfidenceRating = ({
   return (
     <div className="rating rating-lg">
       <div className="flex flex-row gap-6 items-center">
-        <div className="flex flex-col gap-1 items-center justify-center bg-base-200 rounded-xl p-2">
-          <div>😔😔😔</div>
-          <div>Least Confident</div>
-        </div>
+        <div className="flex flex-col gap-1 bg-base-200 rounded-xl p-2 w-min text-center text-sm">Not Confident</div>
         <FiveStarRatingInput
           index={index}
           defaultValue={defaultValue}
           name="confidence-rating-label-input"
           handleChange={(e) => onConfidenceChange(Number(e.target.value))}
         />
-        <div className="flex flex-col gap-1 items-center justify-center bg-base-200 rounded-xl p-2">
-          <div>😄😄😄</div>
-          <div>Most Confident</div>
-        </div>
+        <div className="flex flex-col gap-1 bg-base-200 rounded-xl p-2 w-min text-center text-sm">Very Confident</div>
       </div>
     </div>
   );

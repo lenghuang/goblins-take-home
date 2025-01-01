@@ -90,8 +90,8 @@ export function LabelForId({ labelId }: { labelId: string }) {
             <button onClick={onClick} className="btn btn-primary w-full">
               Submit Your Labels
             </button>
-            <div>or, carefully</div>
-            <button onClick={clearState} className="btn btn-warning btn-outline w-full">
+            <div>or</div>
+            <button onClick={clearState} className="btn w-full">
               Clear The Form
             </button>
           </div>
