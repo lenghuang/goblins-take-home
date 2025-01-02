@@ -1,6 +1,6 @@
 # Goblins Take Home Assignment
 
-This is my work for the take home assignment for https://goblinsapp.com/
+This is my work for the take home assignment for https://goblinsapp.com/. Goblins is a startup that has an AI math tutor for students to help teachers address inequality in the classroom. My task was to make a software for contractors to use to label and annotate their CSV data. Between the initial commit and this last commit, this took me around 2 days, 10 hours of deep focus work (with breaks for sleeping and celebrating New Year's Eve) to complete.
 
 - Live demo here: https://lenhuang-goblinsapp.web.app/
 - My thought process as I was working [here](https://github.com/lenghuang/goblins-take-home/blob/master/README.md).
