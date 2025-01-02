@@ -3,7 +3,7 @@
 This is my work for the take home assignment for https://goblinsapp.com/. Goblins is a startup that has an AI math tutor for students to help teachers address inequality in the classroom. My task was to make a software for contractors to use to label and annotate their CSV data. Between the initial commit and this last commit, this took me around 2 days, 10 hours of deep focus work (with breaks for sleeping and celebrating New Year's Eve) to complete.
 
 - Live demo here: https://lenhuang-goblinsapp.web.app/
-- My thought process as I was working [here](https://github.com/lenghuang/goblins-take-home/blob/master/README.md).
+- Read about [my thought process](https://github.com/lenghuang/goblins-take-home/blob/master/my-thought-process/README.md) as I was working
 - The four core PR's (https://github.com/lenghuang/goblins-take-home/pull/1) (https://github.com/lenghuang/goblins-take-home/pull/2) (https://github.com/lenghuang/goblins-take-home/pull/3) (https://github.com/lenghuang/goblins-take-home/pull/4)
 
 # Demo Gifs
