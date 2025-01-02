@@ -10,28 +10,38 @@ This is my work for the take home assignment for https://goblinsapp.com/
 
 ## Auth Flow
 
-| Sign In | Create Account | Profile Page |
-| ------- | -------------- | ------------ |
+| Sign In                         | Create Account                                | Profile Page                      |
+| ------------------------------- | --------------------------------------------- | --------------------------------- |
+| ![signin](demo/pics/signin.png) | ![createaccount](demo/pics/createaccount.png) | ![profile](demo/pics/profile.png) |
 
-## Various Pages
+## Browse
 
-| Home | Whiteboards |
-| ---- | ----------- |
-
-| Crop | Label |
-| ---- | ----- |
+| Home                        | Whiteboards                                    |
+| --------------------------- | ---------------------------------------------- |
+| ![home](demo/pics/home.png) | ![gallery](demo/gifs/whiteboard%20gallery.gif) |
 
 ## Data Import / Export
 
-| CSV Upload | CSV Download |
-| ---------- | ------------ |
+| CSV Upload                      | CSV Download                    |
+| ------------------------------- | ------------------------------- |
+| ![](demo/gifs/csv%20upload.gif) | ![](demo/gifs/csv%20upload.gif) |
 
 ## Image Cropping
 
+| Image Cropping                       | Image Whiteout on Crop         |
+| ------------------------------------ | ------------------------------ |
+| ![](demo/gifs/cropping%20action.gif) | ![](demo/gifs/white%20out.gif) |
+
+| Deleting an Image                                    | Image Reset                                          |
+| ---------------------------------------------------- | ---------------------------------------------------- |
+| ![](demo/gifs/deleting%20an%20added%20image%202.gif) | ![](demo/gifs/deleting%20an%20added%20image%202.gif) |
+
 ## Labelling
 
-| Error Handling | Status Badge |
-| -------------- | ------------ |
+| Latex Input                      | Math Keyboard                      |
+| -------------------------------- | ---------------------------------- |
+| ![](demo/gifs/latex%20input.gif) | ![](demo/gifs/math%20keyboard.gif) |
 
-| Confirmation | Congrats Toast |
-| ------------ | -------------- |
+| Error Handling                                 | Form Submission                    |
+| ---------------------------------------------- | ---------------------------------- |
+| ![](demo/gifs/mathlive%20error%20handling.gif) | ![](demo/gifs/submit%20labels.gif) |
