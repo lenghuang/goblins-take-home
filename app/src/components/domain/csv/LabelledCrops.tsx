@@ -86,7 +86,7 @@ export function LabelledCrops() {
                   </td>
                   <td>
                     <div className="break-all line-clamp-3 overflow-hidden text-ellipsis">
-                      <img className="contain" src={croppedImageSrc} />
+                      <img className="contain max-h-10" src={croppedImageSrc} />
                     </div>
                   </td>
                   <td>

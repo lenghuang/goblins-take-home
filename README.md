@@ -8,6 +8,8 @@ This is my work for the take home assignment for https://goblinsapp.com/
 
 # Demo Gifs
 
+All the core functionality of labeling an image with math notation is here, as well as uploading and downloading the data. If I had more time, I would add the ability to rotate / zoom in on the crop, improved multi-line and English text labelling, and some leaderboards / aggregate statistics.
+
 ## Auth Flow
 
 | Sign In                         | Create Account                                | Profile Page                      |
@@ -16,15 +18,15 @@ This is my work for the take home assignment for https://goblinsapp.com/
 
 ## Browse
 
-| Home                        | Whiteboards                                    |
-| --------------------------- | ---------------------------------------------- |
-| ![home](demo/pics/home.png) | ![gallery](demo/gifs/whiteboard%20gallery.gif) |
+| Home / Page Navigation            | Whiteboards                                    |
+| --------------------------------- | ---------------------------------------------- |
+| ![home](demo/gifs/page%20nav.gif) | ![gallery](demo/gifs/whiteboard%20gallery.gif) |
 
 ## Data Import / Export
 
-| CSV Upload                      | CSV Download                    |
-| ------------------------------- | ------------------------------- |
-| ![](demo/gifs/csv%20upload.gif) | ![](demo/gifs/csv%20upload.gif) |
+| CSV Upload                      | CSV Download                      |
+| ------------------------------- | --------------------------------- |
+| ![](demo/gifs/csv%20upload.gif) | ![](demo/gifs/download%20csv.gif) |
 
 ## Image Cropping
 
@@ -32,9 +34,9 @@ This is my work for the take home assignment for https://goblinsapp.com/
 | ------------------------------------ | ------------------------------ |
 | ![](demo/gifs/cropping%20action.gif) | ![](demo/gifs/white%20out.gif) |
 
-| Deleting an Image                                    | Image Reset                                          |
-| ---------------------------------------------------- | ---------------------------------------------------- |
-| ![](demo/gifs/deleting%20an%20added%20image%202.gif) | ![](demo/gifs/deleting%20an%20added%20image%202.gif) |
+| Deleting an Image                                    | Image Reset                      |
+| ---------------------------------------------------- | -------------------------------- |
+| ![](demo/gifs/deleting%20an%20added%20image%202.gif) | ![](demo/gifs/reset%20image.gif) |
 
 ## Labelling
 
